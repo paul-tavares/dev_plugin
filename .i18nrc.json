@@ -1,0 +1,7 @@
+{
+  "prefix": "devPlugin",
+  "paths": {
+    "devPlugin": "."
+  },
+  "translations": ["translations/ja-JP.json"]
+}

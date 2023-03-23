@@ -1,0 +1,17 @@
+{
+  "id": "devPlugin",
+  "version": "1.0.0",
+  "kibanaVersion": "kibana",
+  "owner": {
+    "name": "security solution",
+    "githubTeam": ""
+  },
+  "description": "tools",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": ["navigation"],
+  "optionalPlugins": [],
+  "requiredBundles": [
+    "kibanaReact"
+  ]
+}
