@@ -1,4 +1,3 @@
-import { i18n } from '@kbn/i18n';
 import { AppMountParameters, CoreSetup, CoreStart, Plugin } from '@kbn/core/public';
 import { DevPluginPluginSetup, DevPluginPluginStart, AppPluginStartDependencies } from './types';
 import { PLUGIN_ID, PLUGIN_NAME } from '../common';
@@ -20,16 +19,7 @@ export class DevPluginPlugin implements Plugin<DevPluginPluginSetup, DevPluginPl
     });
 
     // Return methods that should be available to other plugins
-    return {
-      getGreeting() {
-        return i18n.translate('devPlugin.greetingText', {
-          defaultMessage: 'Hello from {name}!',
-          values: {
-            name: PLUGIN_NAME,
-          },
-        });
-      },
-    };
+    return {};
   }
 
   public start(core: CoreStart): DevPluginPluginStart {
