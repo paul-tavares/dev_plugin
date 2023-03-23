@@ -1,7 +1,7 @@
-import { useKibana } from '@kbn/kibana-react-plugin/public';
 import { useMemo } from 'react';
 import { ROUTER_PATH_API_MATE_MAIN_PAGE } from '../common/constants';
 import { PLUGIN_ID } from '../../../../common';
+import { useKibanaServices } from '../../../hooks/use_kibana_services';
 
 interface ApiMateUrlRouteOptions {
   page: 'main';
@@ -13,10 +13,8 @@ export const useApiMateUrlRoute = ({
   options,
 }: ApiMateUrlRouteOptions): [string, React.MouseEventHandler] => {
   const {
-    services: {
-      application: { getUrlForApp, navigateToApp },
-    },
-  } = useKibana();
+    application: { getUrlForApp, navigateToApp },
+  } = useKibanaServices();
 
   return useMemo(() => {
     let path = `${page}-invalid`;
