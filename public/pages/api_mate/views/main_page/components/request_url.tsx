@@ -8,10 +8,8 @@ export interface RequestUrlProps {
 }
 
 export const RequestUrl = memo<RequestUrlProps>((props) => {
-  const [{ url }, setStore] = useApiMateState();
+  const [{ url, loading }, setStore] = useApiMateState();
   const sendRequest = useSubmitApiRequest();
-
-  // TODO:PT implement Send button click
 
   const handleInputOnChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
     (ev) => {
@@ -34,6 +32,10 @@ export const RequestUrl = memo<RequestUrlProps>((props) => {
     [sendRequest]
   );
 
+  const handleSendButtonOnClick = useCallback(() => {
+    sendRequest();
+  }, [sendRequest]);
+
   return (
     <EuiFlexGroup wrap={false} responsive={false}>
       <EuiFlexItem grow={false}>{'verb'}</EuiFlexItem>
@@ -42,6 +44,7 @@ export const RequestUrl = memo<RequestUrlProps>((props) => {
         <EuiFieldText
           placeholder="API URL (relative to hostname). Example: /api/endpoint/something"
           value={url}
+          disabled={loading}
           onChange={handleInputOnChange}
           onKeyUp={handleInputOnKeyUp}
           aria-label="Enter API url"
@@ -50,7 +53,12 @@ export const RequestUrl = memo<RequestUrlProps>((props) => {
       </EuiFlexItem>
 
       <EuiFlexItem grow={false}>
-        <EuiButton iconType="frameNext" iconSide="right" onClick={() => {}}>
+        <EuiButton
+          iconType="frameNext"
+          iconSide="right"
+          onClick={handleSendButtonOnClick}
+          disabled={loading}
+        >
           {'Send'}
         </EuiButton>
       </EuiFlexItem>

@@ -9,6 +9,13 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
   return useCallback(async () => {
     // TODO: do validation on data needed
 
+    setStore((prevState) => {
+      return {
+        ...prevState,
+        loading: true,
+      };
+    });
+
     try {
       const response = await http.get(url, { asResponse: true });
       setStore((prevState) => {
@@ -20,6 +27,13 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
     } catch (err) {
       // TODO:PT handle errors
       window.console.log(err);
+    } finally {
+      setStore((prevState) => {
+        return {
+          ...prevState,
+          loading: false,
+        };
+      });
     }
   }, [http, setStore, url]);
 };

@@ -18,7 +18,7 @@ export const ResponseOutput = memo(() => {
       <EuiTitle size="xxs">
         <h3>{'Response'}</h3>
       </EuiTitle>
-      <EuiCodeBlock lineNumbers={true} isCopyable={true}>
+      <EuiCodeBlock lineNumbers={true} isCopyable={true} language="json">
         {responseBody}
       </EuiCodeBlock>
     </div>
