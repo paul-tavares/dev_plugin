@@ -6,6 +6,10 @@ export interface ApiMatePageProps {
 }
 
 export const ApiMatePage = memo<ApiMatePageProps>((props) => {
-  return <AppPage>{'ApiMatePage placeholder'}</AppPage>;
+  return (
+    <AppPage pageTitle="API Mate" description="Send request to Kibana APIs">
+      {'ApiMatePage placeholder'}
+    </AppPage>
+  );
 });
 ApiMatePage.displayName = 'ApiMatePage';
