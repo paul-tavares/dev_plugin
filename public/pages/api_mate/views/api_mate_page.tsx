@@ -7,7 +7,7 @@ export interface ApiMatePageProps {
 
 export const ApiMatePage = memo<ApiMatePageProps>((props) => {
   return (
-    <AppPage pageTitle="API Mate" description="Send request to Kibana APIs">
+    <AppPage pageTitle="API Mate" description="Send request to Kibana APIs" headerIcon="cluster">
       {'ApiMatePage placeholder'}
     </AppPage>
   );
