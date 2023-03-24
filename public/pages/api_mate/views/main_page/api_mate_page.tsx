@@ -1,9 +1,11 @@
-import { EuiSpacer, EuiProgress } from '@elastic/eui';
+import { EuiSpacer, EuiProgress, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
 import React, { memo } from 'react';
 import { AppPage } from '../../../../components/app_page';
 import { RequestUrl } from './components/request_url';
-import { ResponseOutput } from './components/response_output';
+
 import { useApiMateState } from '../../components/api_mate_store';
+import { RequestLayout } from './components/request/request_layout';
+import { ResponseLayout } from './components/response/response_layout';
 
 export const ApiMatePage = memo(() => {
   const [{ loading }] = useApiMateState();
@@ -17,7 +19,14 @@ export const ApiMatePage = memo(() => {
       <div style={{ position: 'relative' }}>
         {loading && <EuiProgress position="absolute" size="xs" color="accent" />}
 
-        <ResponseOutput />
+        <EuiFlexGroup>
+          <EuiFlexItem>
+            <RequestLayout />
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <ResponseLayout />
+          </EuiFlexItem>
+        </EuiFlexGroup>
       </div>
     </AppPage>
   );
