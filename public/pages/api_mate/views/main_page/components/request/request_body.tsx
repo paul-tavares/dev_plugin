@@ -8,8 +8,9 @@ export const RequestBody = memo(() => {
     <CodeEditor
       languageId="json"
       height="650px"
-      value="{ one: 'value' }"
+      value={JSON.stringify({ one: 'value' }) + '\n'.repeat(60)}
       onChange={() => {}}
+      options={{}}
       transparentBackground
     />
   );
