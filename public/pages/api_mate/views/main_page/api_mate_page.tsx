@@ -6,6 +6,7 @@ import { RequestUrl } from './components/request_url';
 import { useApiMateState } from '../../components/api_mate_store';
 import { RequestLayout } from './components/request/request_layout';
 import { ResponseLayout } from './components/response/response_layout';
+import { HistoryLayout } from './components/history/history_layout';
 
 export const ApiMatePage = memo(() => {
   const [{ loading }] = useApiMateState();
@@ -19,12 +20,19 @@ export const ApiMatePage = memo(() => {
       <div style={{ position: 'relative' }}>
         {loading && <EuiProgress position="absolute" size="xs" color="accent" />}
 
-        <EuiFlexGroup>
-          <EuiFlexItem>
-            <RequestLayout />
+        <EuiFlexGroup responsive={false}>
+          <EuiFlexItem grow={false}>
+            <HistoryLayout />
           </EuiFlexItem>
-          <EuiFlexItem>
-            <ResponseLayout />
+          <EuiFlexItem grow>
+            <EuiFlexGroup responsive={false}>
+              <EuiFlexItem>
+                <RequestLayout />
+              </EuiFlexItem>
+              <EuiFlexItem>
+                <ResponseLayout />
+              </EuiFlexItem>
+            </EuiFlexGroup>
           </EuiFlexItem>
         </EuiFlexGroup>
       </div>
