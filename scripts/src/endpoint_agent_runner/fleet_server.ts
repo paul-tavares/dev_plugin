@@ -250,7 +250,7 @@ export const startFleetServerWithDocker = async ({
 
     containerId = (await execa('docker', dockerArgs)).stdout;
 
-    const fleetServerAgent = await waitForHostToEnroll(kbnClient, containerName);
+    const fleetServerAgent = await waitForHostToEnroll(kbnClient, containerName, 60000);
 
     log.verbose(`Fleet server enrolled agent:\n${JSON.stringify(fleetServerAgent, null, 2)}`);
 
