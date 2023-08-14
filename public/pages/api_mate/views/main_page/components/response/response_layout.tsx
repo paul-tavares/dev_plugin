@@ -1,15 +1,18 @@
 import React, { memo } from 'react';
 import { EuiTitle } from '@elastic/eui';
 import { ResponseBody } from './response_body';
+import { AccordionSection } from '../accordion_section';
 
 export const ResponseLayout = memo(() => {
   return (
     <div>
-      <EuiTitle size="xxs">
-        <h3>{'Response'}</h3>
+      <EuiTitle size="xs">
+        <h2>{'Response'}</h2>
       </EuiTitle>
 
-      <ResponseBody />
+      <AccordionSection title="Body">
+        <ResponseBody />
+      </AccordionSection>
     </div>
   );
 });

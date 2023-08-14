@@ -1,18 +1,25 @@
 import React, { memo } from 'react';
-import { EuiTitle } from '@elastic/eui';
+import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import { RequestBody } from './request_body';
 import { RequestQueryParams } from './request_query_params';
+import { AccordionSection } from '../accordion_section';
 
 export const RequestLayout = memo(() => {
   return (
     <div>
-      <EuiTitle size="xxs">
-        <h3>{'Request'}</h3>
+      <EuiTitle size="xs">
+        <h2>{'Request'}</h2>
       </EuiTitle>
 
-      <RequestQueryParams />
+      <AccordionSection title="Body">
+        <RequestBody />
+      </AccordionSection>
 
-      <RequestBody />
+      <EuiSpacer size="xl" />
+
+      <AccordionSection title="Headers" initiallyOpen={false}>
+        <RequestQueryParams />
+      </AccordionSection>
     </div>
   );
 });
