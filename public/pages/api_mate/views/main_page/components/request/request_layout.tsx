@@ -11,8 +11,8 @@ export const RequestLayout = memo(() => {
         <h2>{'Request'}</h2>
       </EuiTitle>
 
-      <EuiHorizontalRule margin="m" />
-      <EuiSpacer size="l" />
+      <EuiHorizontalRule margin="s" />
+      <EuiSpacer size="m" />
 
       <AccordionSection title="Body">
         <RequestBody />

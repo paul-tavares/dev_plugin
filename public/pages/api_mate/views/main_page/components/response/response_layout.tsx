@@ -10,8 +10,8 @@ export const ResponseLayout = memo(() => {
         <h2>{'Response'}</h2>
       </EuiTitle>
 
-      <EuiHorizontalRule margin="m" />
-      <EuiSpacer size="l" />
+      <EuiHorizontalRule margin="s" />
+      <EuiSpacer size="m" />
 
       <AccordionSection title="Body">
         <ResponseBody />

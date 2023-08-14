@@ -1,5 +1,5 @@
 import React, { memo, PropsWithChildren, useMemo } from 'react';
-import { EuiAccordion, useGeneratedHtmlId } from '@elastic/eui';
+import { EuiAccordion, EuiSpacer, useGeneratedHtmlId } from '@elastic/eui';
 import { HeaderDisplay } from './header_display';
 
 export type AccordionSectionProps = PropsWithChildren<{
@@ -16,6 +16,7 @@ export const AccordionSection = memo<AccordionSectionProps>(
 
     return (
       <EuiAccordion id={accordionId} buttonContent={buttonTitle} initialIsOpen={initiallyOpen}>
+        <EuiSpacer size="s" />
         {children}
       </EuiAccordion>
     );

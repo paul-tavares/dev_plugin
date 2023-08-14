@@ -4,7 +4,7 @@ import { useApiMateState } from '../components/api_mate_store';
 
 export const useSubmitApiRequest = (): (() => Promise<void>) => {
   const { http } = useKibanaServices();
-  const [{ url }, setStore] = useApiMateState();
+  const [{ url, requestHeaders, requestBody, httpVerb }, setStore] = useApiMateState();
 
   return useCallback(async () => {
     // TODO: do validation on data needed
@@ -17,11 +17,18 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
     });
 
     try {
-      const response = await http.get(url, { asResponse: true });
+      const response = await http[httpVerb](url, {
+        asResponse: true,
+        body: requestBody ? requestBody : undefined,
+        headers: requestHeaders,
+      });
+
       setStore((prevState) => {
         return {
           ...prevState,
-          response,
+          responseBody: JSON.stringify(response.body ?? '', null, 2),
+          responseStatus: response.response?.status ?? 0,
+          responseStatusText: response.response?.statusText ?? '',
         };
       });
     } catch (err) {
@@ -35,5 +42,5 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
         };
       });
     }
-  }, [http, setStore, url]);
+  }, [http, httpVerb, requestBody, requestHeaders, setStore, url]);
 };

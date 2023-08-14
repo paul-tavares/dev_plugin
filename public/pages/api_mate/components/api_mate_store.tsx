@@ -15,7 +15,9 @@ const createState = (): ApiMateState => {
     loading: false,
     requestHeaders: {},
     requestBody: '',
-    response: undefined,
+    responseBody: '',
+    responseStatus: 0,
+    responseStatusText: '',
   };
 };
 

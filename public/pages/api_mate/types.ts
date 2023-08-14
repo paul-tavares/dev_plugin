@@ -1,4 +1,4 @@
-import { HttpResponse, HttpSetup } from '@kbn/core-http-browser';
+import { HttpSetup } from '@kbn/core-http-browser';
 
 export type HttpMethod = keyof Pick<
   HttpSetup,
@@ -11,5 +11,7 @@ export interface ApiMateState {
   loading: boolean;
   requestBody: string;
   requestHeaders: Record<string, string>;
-  response?: HttpResponse;
+  responseBody: string;
+  responseStatus: number;
+  responseStatusText: string;
 }
