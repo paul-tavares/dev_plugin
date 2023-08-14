@@ -13,6 +13,8 @@ const createState = (): ApiMateState => {
     url: '',
     httpVerb: 'get',
     loading: false,
+    requestHeaders: {},
+    requestBody: '',
     response: undefined,
   };
 };

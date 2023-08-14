@@ -9,5 +9,7 @@ export interface ApiMateState {
   url: string;
   httpVerb: HttpMethod;
   loading: boolean;
+  requestBody: string;
+  requestHeaders: Record<string, string>;
   response?: HttpResponse;
 }
