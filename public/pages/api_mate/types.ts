@@ -19,14 +19,7 @@ export interface ApiMateState {
 
 export type ApiMateHistoryItem = Pick<
   ApiMateState,
-  | 'url'
-  | 'httpVerb'
-  | 'requestBody'
-  | 'requestHeaders'
-  | 'requestParams'
-  | 'responseBody'
-  | 'responseStatus'
-  | 'responseStatusText'
+  'url' | 'httpVerb' | 'requestBody' | 'requestHeaders' | 'requestParams'
 > & {
   created: string;
 };

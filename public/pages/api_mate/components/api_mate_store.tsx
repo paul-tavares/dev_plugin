@@ -8,7 +8,7 @@ interface ApiMateStoreContent {
 
 const ApiMateStoreContext = React.createContext<ApiMateStoreContent>({} as ApiMateStoreContent);
 
-const createState = (): ApiMateState => {
+export const createState = (): ApiMateState => {
   return {
     url: '',
     httpVerb: 'get',

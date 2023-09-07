@@ -1,8 +1,31 @@
-import React, { memo } from 'react';
-import { EuiHorizontalRule, EuiSpacer, EuiTitle } from '@elastic/eui';
+import React, { memo, useMemo } from 'react';
+import { EuiHorizontalRule, EuiSpacer, EuiTitle, EuiButtonEmpty } from '@elastic/eui';
+import { useApiMateHistory } from '../../../../components/api_mate_history';
+import { createState, useApiMateState } from '../../../../components/api_mate_store';
 
 export const HistoryLayout = memo(() => {
-  // FIXME:PT work to access styles from EUI using emotion
+  const { items } = useApiMateHistory();
+  const [, setApiMateState] = useApiMateState();
+
+  const historyItems = useMemo(() => {
+    return items.map(({ created, ...requestState }) => {
+      return (
+        <EuiButtonEmpty
+          key={created}
+          onClick={() => {
+            setApiMateState({
+              ...createState(),
+              ...requestState,
+            });
+          }}
+        >
+          {requestState.url}
+        </EuiButtonEmpty>
+      );
+    });
+  }, [items, setApiMateState]);
+
+  // FIXME:PT work to access styles from EUI using emotion for `width` below
   return (
     <div style={{ width: '200px' }}>
       <EuiTitle size="xs">
@@ -11,6 +34,8 @@ export const HistoryLayout = memo(() => {
 
       <EuiHorizontalRule margin="s" />
       <EuiSpacer size="m" />
+
+      {historyItems}
     </div>
   );
 });
