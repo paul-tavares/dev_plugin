@@ -30,6 +30,7 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
         body: requestBody ? requestBody : undefined,
         headers: requestHeaders,
         query: requestParams,
+        version: requestHeaders['elastic-api-version'],
       };
 
       response = await http[httpVerb](url, options);
