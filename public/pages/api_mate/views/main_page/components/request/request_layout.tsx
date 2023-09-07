@@ -3,6 +3,7 @@ import { EuiSpacer, EuiTitle, EuiHorizontalRule } from '@elastic/eui';
 import { RequestBody } from './request_body';
 import { RequestQueryParams } from './request_query_params';
 import { AccordionSection } from '../accordion_section';
+import { RequestHeaders } from './request_headers';
 
 export const RequestLayout = memo(() => {
   return (
@@ -20,8 +21,13 @@ export const RequestLayout = memo(() => {
 
       <EuiSpacer size="xl" />
 
-      <AccordionSection title="Headers" initiallyOpen={false}>
+      <AccordionSection title="Query Params" initiallyOpen={false}>
         <RequestQueryParams />
+      </AccordionSection>
+      <EuiSpacer size="m" />
+
+      <AccordionSection title="Request Headers" initiallyOpen={false}>
+        <RequestHeaders />
       </AccordionSection>
     </div>
   );

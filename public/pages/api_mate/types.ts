@@ -1,4 +1,4 @@
-import { HttpSetup } from '@kbn/core-http-browser';
+import { HttpFetchQuery, HttpSetup } from '@kbn/core-http-browser';
 
 export type HttpMethod = keyof Pick<
   HttpSetup,
@@ -11,7 +11,22 @@ export interface ApiMateState {
   loading: boolean;
   requestBody: string;
   requestHeaders: Record<string, string>;
+  requestParams: HttpFetchQuery;
   responseBody: string;
   responseStatus: number;
   responseStatusText: string;
 }
+
+export type ApiMateHistoryItem = Pick<
+  ApiMateState,
+  | 'url'
+  | 'httpVerb'
+  | 'requestBody'
+  | 'requestHeaders'
+  | 'requestParams'
+  | 'responseBody'
+  | 'responseStatus'
+  | 'responseStatusText'
+> & {
+  created: string;
+};

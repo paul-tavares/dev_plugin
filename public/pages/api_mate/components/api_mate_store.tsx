@@ -14,6 +14,7 @@ const createState = (): ApiMateState => {
     httpVerb: 'get',
     loading: false,
     requestHeaders: {},
+    requestParams: {},
     requestBody: '',
     responseBody: '',
     responseStatus: 0,
