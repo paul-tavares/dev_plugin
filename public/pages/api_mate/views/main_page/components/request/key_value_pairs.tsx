@@ -7,6 +7,7 @@ import {
   EuiFormRow,
   EuiEmptyPrompt,
   EuiText,
+  EuiButtonIcon,
   type EuiFieldTextProps,
 } from '@elastic/eui';
 
@@ -23,7 +24,10 @@ export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
       };
 
       delete updatedValue[oldPair.name];
-      updatedValue[newPair.name] = newPair.value;
+
+      if (newPair) {
+        updatedValue[newPair.name] = newPair.value;
+      }
 
       onChange(updatedValue);
     },
@@ -83,7 +87,7 @@ interface KeyValuePair {
 }
 
 export interface KeyValueRowProps extends KeyValuePair {
-  onChange: (update: { old: KeyValuePair; new: KeyValuePair }) => void;
+  onChange: (update: { old: KeyValuePair; new: KeyValuePair | undefined }) => void;
 }
 
 export const KeyValueRow = memo<KeyValueRowProps>(({ name, value, onChange }) => {
@@ -107,16 +111,25 @@ export const KeyValueRow = memo<KeyValueRowProps>(({ name, value, onChange }) =>
     [name, onChange, value]
   );
 
+  const removeRowHandler = useCallback(() => {
+    onChange({
+      old: { name, value },
+      new: undefined,
+    });
+  }, [name, onChange, value]);
+
   return (
     <EuiFormRow fullWidth>
-      <EuiFlexGroup gutterSize="s">
+      <EuiFlexGroup gutterSize="s" alignItems="center">
         <EuiFlexItem>
-          <EuiFieldText value={name} onChange={nameOnChangeHandler} />
+          <EuiFieldText value={name} onChange={nameOnChangeHandler} fullWidth />
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiFieldText value={value} onChange={valueOnChangeHandler} />
+          <EuiFieldText value={value} onChange={valueOnChangeHandler} fullWidth />
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>{'delete'}</EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiButtonIcon iconType="trash" onClick={removeRowHandler} />
+        </EuiFlexItem>
       </EuiFlexGroup>
     </EuiFormRow>
   );
