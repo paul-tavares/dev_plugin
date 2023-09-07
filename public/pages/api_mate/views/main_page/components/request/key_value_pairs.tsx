@@ -108,7 +108,7 @@ export const KeyValueRow = memo<KeyValueRowProps>(({ name, value, onChange }) =>
   );
 
   return (
-    <EuiFormRow fullWidth key={name}>
+    <EuiFormRow fullWidth>
       <EuiFlexGroup gutterSize="s">
         <EuiFlexItem>
           <EuiFieldText value={name} onChange={nameOnChangeHandler} />

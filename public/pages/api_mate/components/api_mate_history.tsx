@@ -34,8 +34,7 @@ export const ApiMateHistory = memo(({ children }) => {
       setItems((prevState) => {
         const newHistoryStorage: HistoryStorage = {
           version: DATA_VERSION,
-          items: prevState.concat(
-            // clone to insure that any of the properties from state are not referenced
+          items: [
             clone({
               created: new Date().toISOString(),
               requestBody,
@@ -46,8 +45,9 @@ export const ApiMateHistory = memo(({ children }) => {
               responseStatusText,
               url,
               httpVerb,
-            })
-          ),
+            }),
+            ...prevState,
+          ],
         };
 
         storage.set(storageKey, newHistoryStorage);
