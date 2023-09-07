@@ -1,5 +1,12 @@
 import React, { memo, useMemo } from 'react';
-import { EuiHorizontalRule, EuiSpacer, EuiTitle, EuiButtonEmpty } from '@elastic/eui';
+import {
+  EuiHorizontalRule,
+  EuiSpacer,
+  EuiTitle,
+  EuiButtonEmpty,
+  EuiEmptyPrompt,
+  EuiText,
+} from '@elastic/eui';
 import { useApiMateHistory } from '../../../../components/api_mate_history';
 import { createState, useApiMateState } from '../../../../components/api_mate_store';
 
@@ -8,6 +15,19 @@ export const HistoryLayout = memo(() => {
   const [, setApiMateState] = useApiMateState();
 
   const historyItems = useMemo(() => {
+    if (items.length === 0) {
+      return (
+        <EuiEmptyPrompt
+          body={
+            <EuiText>
+              <p>{'No history'}</p>
+            </EuiText>
+          }
+          titleSize="xs"
+        />
+      );
+    }
+
     return items.map(({ created, ...requestState }) => {
       return (
         <EuiButtonEmpty
