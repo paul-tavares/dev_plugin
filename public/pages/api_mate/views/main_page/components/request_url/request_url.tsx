@@ -1,22 +1,18 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import {
-  EuiFieldText,
+  EuiButton,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiButton,
   EuiSuperSelect,
   EuiSuperSelectProps,
 } from '@elastic/eui';
-import { useApiMateState } from '../../../components/api_mate_store';
-import { useSubmitApiRequest } from '../../../hooks/use_submit_api_request';
-import { HttpMethod } from '../../../types';
+import { useApiMateState } from '../../../../components/api_mate_store';
+import { useSubmitApiRequest } from '../../../../hooks/use_submit_api_request';
+import { HttpMethod } from '../../../../types';
+import { ApiRouteInput } from './api_route_input';
 
-export interface RequestUrlProps {
-  // TODO: define props
-}
-
-export const RequestUrl = memo<RequestUrlProps>((props) => {
-  const [{ url, loading, httpVerb }, setStore] = useApiMateState();
+export const RequestUrl = memo((props) => {
+  const [{ loading, httpVerb }, setStore] = useApiMateState();
   const sendRequest = useSubmitApiRequest();
 
   const httpMethodValues: EuiSuperSelectProps<HttpMethod>['options'] = useMemo(() => {
@@ -71,27 +67,6 @@ export const RequestUrl = memo<RequestUrlProps>((props) => {
     [setStore]
   );
 
-  const handleInputOnChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-    (ev) => {
-      setStore((prevState) => {
-        return {
-          ...prevState,
-          url: ev.target.value,
-        };
-      });
-    },
-    [setStore]
-  );
-
-  const handleInputOnKeyUp: React.KeyboardEventHandler<HTMLInputElement> = useCallback(
-    (ev) => {
-      if (ev.key === 'Enter') {
-        sendRequest();
-      }
-    },
-    [sendRequest]
-  );
-
   const handleSendButtonOnClick = useCallback(() => {
     sendRequest();
   }, [sendRequest]);
@@ -108,15 +83,7 @@ export const RequestUrl = memo<RequestUrlProps>((props) => {
       </EuiFlexItem>
 
       <EuiFlexItem>
-        <EuiFieldText
-          placeholder="API URL (relative to hostname). Example: /api/endpoint/something"
-          value={url}
-          disabled={loading}
-          onChange={handleInputOnChange}
-          onKeyUp={handleInputOnKeyUp}
-          aria-label="Enter API url"
-          fullWidth
-        />
+        <ApiRouteInput />
       </EuiFlexItem>
 
       <EuiFlexItem grow={false}>
