@@ -40,12 +40,15 @@ export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
     if (entries.length === 0) {
       return (
         <EuiEmptyPrompt
+          color="transparent"
+          titleSize="xxs"
+          hasShadow
+          title={<div style={{ fontWeight: 500 }}>{'No entries defined'}</div>}
           body={
-            <EuiText>
-              <p>{'No entries defined'}</p>
+            <EuiText size="s">
+              <p>{'Click Add below to add a new entry'}</p>
             </EuiText>
           }
-          titleSize="xs"
         />
       );
     }
