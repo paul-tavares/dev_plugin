@@ -52,7 +52,7 @@ export const ApiRouteInput = memo(() => {
     <EuiInputPopover
       input={
         <EuiFieldText
-          placeholder="API URL (relative to hostname). Example: /api/endpoint/something"
+          placeholder="API route. Click [Arrow Down] key to see history. Example: /api/endpoint/something"
           value={url}
           disabled={loading}
           onChange={handleInputOnChange}
@@ -65,6 +65,7 @@ export const ApiRouteInput = memo(() => {
               iconType="arrowDown"
               aria-label="Show suggestions"
               onClick={showSuggestionsButtonOnClickHandler}
+              title={'Key: [Arrow Down]'}
             />
           }
         />
