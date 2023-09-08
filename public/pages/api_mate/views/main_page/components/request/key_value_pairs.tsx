@@ -42,7 +42,7 @@ export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
         <EuiEmptyPrompt
           body={
             <EuiText>
-              <p>{'No headers defined'}</p>
+              <p>{'No entries defined'}</p>
             </EuiText>
           }
           titleSize="xs"

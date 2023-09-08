@@ -1,6 +1,26 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
+import { useApiMateState } from '../../../../components/api_mate_store';
+import { KeyValuePairs } from './key_value_pairs';
 
 export const RequestQueryParams = memo(() => {
-  return <div style={{ minHeight: '5em' }}>{'RequestQueryParams placeholder'}</div>;
+  const [{ requestParams }, setApiMateState] = useApiMateState();
+
+  const keyValuePairsOnChangeHandler = useCallback(
+    (newParams) => {
+      setApiMateState((prevState) => {
+        return {
+          ...prevState,
+          requestParams: newParams,
+        };
+      });
+    },
+    [setApiMateState]
+  );
+
+  return (
+    <div>
+      <KeyValuePairs value={requestParams} onChange={keyValuePairsOnChangeHandler} />
+    </div>
+  );
 });
 RequestQueryParams.displayName = 'RequestQueryParams';

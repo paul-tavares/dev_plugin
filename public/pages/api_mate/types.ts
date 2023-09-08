@@ -11,7 +11,7 @@ export interface ApiMateState {
   loading: boolean;
   requestBody: string;
   requestHeaders: Record<string, string>;
-  requestParams: HttpFetchQuery;
+  requestParams: Record<string, string>;;
   responseBody: string;
   responseStatus: number;
   responseStatusText: string;
