@@ -79,7 +79,7 @@ export const HistoryItem = memo<HistoryItemProps>(
           onMouseEnter={buttonOnMouseEnterHandler}
           onMouseLeave={buttonOnMouseLeaveHandler}
         >
-          <TextTruncate value={requestState.url} />
+          <TextTruncate value={requestState.url} size="s" />
         </EuiButtonEmpty>
       );
     }, [
