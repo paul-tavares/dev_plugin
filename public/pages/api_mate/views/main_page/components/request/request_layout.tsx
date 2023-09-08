@@ -15,7 +15,7 @@ export const RequestLayout = memo(() => {
       <EuiHorizontalRule margin="s" />
       <EuiSpacer size="m" />
 
-      <AccordionSection title="Body">
+      <AccordionSection title="Body" initiallyOpen={false}>
         <RequestBody />
       </AccordionSection>
 
