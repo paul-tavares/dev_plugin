@@ -1,50 +1,8 @@
-import React, { memo, useMemo } from 'react';
-import {
-  EuiHorizontalRule,
-  EuiSpacer,
-  EuiTitle,
-  EuiButtonEmpty,
-  EuiEmptyPrompt,
-  EuiText,
-} from '@elastic/eui';
-import { useApiMateHistory } from '../../../../components/api_mate_history';
-import { createState, useApiMateState } from '../../../../components/api_mate_store';
+import React, { memo } from 'react';
+import { EuiHorizontalRule, EuiSpacer, EuiTitle } from '@elastic/eui';
+import { HistoryItems } from './history_items';
 
 export const HistoryLayout = memo(() => {
-  const { items } = useApiMateHistory();
-  const [, setApiMateState] = useApiMateState();
-
-  const historyItems = useMemo(() => {
-    if (items.length === 0) {
-      return (
-        <EuiEmptyPrompt
-          body={
-            <EuiText>
-              <p>{'No history'}</p>
-            </EuiText>
-          }
-          titleSize="xs"
-        />
-      );
-    }
-
-    return items.map(({ created, ...requestState }) => {
-      return (
-        <EuiButtonEmpty
-          key={created}
-          onClick={() => {
-            setApiMateState({
-              ...createState(),
-              ...requestState,
-            });
-          }}
-        >
-          {requestState.url}
-        </EuiButtonEmpty>
-      );
-    });
-  }, [items, setApiMateState]);
-
   // FIXME:PT work to access styles from EUI using emotion for `width` below
   return (
     <div style={{ width: '200px' }}>
@@ -55,7 +13,7 @@ export const HistoryLayout = memo(() => {
       <EuiHorizontalRule margin="s" />
       <EuiSpacer size="m" />
 
-      {historyItems}
+      <HistoryItems />
     </div>
   );
 });

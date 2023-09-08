@@ -20,6 +20,7 @@ export const RequestLayout = memo(() => {
       </AccordionSection>
 
       <EuiSpacer size="xl" />
+      <EuiHorizontalRule />
 
       <AccordionSection title="Query Params" initiallyOpen={false}>
         <RequestQueryParams />
