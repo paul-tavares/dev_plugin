@@ -23,6 +23,7 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
     });
 
     let response: HttpResponse | HttpFetchError;
+    let wasSuccess = false;
 
     try {
       const options: HttpFetchOptions & { asResponse: true } = {
@@ -34,6 +35,7 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
       };
 
       response = await http[httpVerb](url, options);
+      wasSuccess = true;
     } catch (err) {
       window.console.log(err);
 
@@ -48,7 +50,10 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
           responseStatusText: response.response?.statusText ?? '',
         };
 
-        addHistoryItem(updatedState);
+        addHistoryItem({
+          ...updatedState,
+          wasSuccess,
+        });
 
         return updatedState;
       });

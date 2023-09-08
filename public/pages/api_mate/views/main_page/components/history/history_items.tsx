@@ -1,31 +1,28 @@
-import React, { memo, useMemo } from 'react';
-import { EuiButtonEmpty, EuiEmptyPrompt, EuiText } from '@elastic/eui';
+import React, { memo, useCallback, useMemo, useState } from 'react';
+import {
+  EuiButtonEmpty,
+  EuiEmptyPrompt,
+  EuiText,
+  EuiPopover,
+  useGeneratedHtmlId,
+  EuiHorizontalRule,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiIcon,
+} from '@elastic/eui';
 import { useApiMateHistory } from '../../../../components/api_mate_history';
 import { createState, useApiMateState } from '../../../../components/api_mate_store';
 import { TextTruncate } from '../../../../components/text_truncate';
+import { ApiMateHistoryItem } from '../../../../types';
 
 export const HistoryItems = memo(() => {
   const { items } = useApiMateHistory();
-  const [, setApiMateState] = useApiMateState();
 
   const entryList = useMemo(() => {
-    return items.map(({ created, ...requestState }) => {
-      return (
-        <EuiButtonEmpty
-          key={created}
-          onClick={() => {
-            setApiMateState({
-              ...createState(),
-              ...requestState,
-            });
-          }}
-          title={requestState.url}
-        >
-          <TextTruncate value={requestState.url} />
-        </EuiButtonEmpty>
-      );
+    return items.map((requestData) => {
+      return <HistoryItem key={requestData.created} item={requestData} />;
     });
-  }, [items, setApiMateState]);
+  }, [items]);
 
   if (items.length === 0) {
     return (
@@ -43,3 +40,81 @@ export const HistoryItems = memo(() => {
   return <div>{entryList}</div>;
 });
 HistoryItems.displayName = 'HistoryItems';
+
+export interface HistoryItemProps {
+  item: ApiMateHistoryItem;
+}
+
+export const HistoryItem = memo<HistoryItemProps>(
+  ({ item: { created, wasSuccess, ...requestState } }) => {
+    const [, setApiMateState] = useApiMateState();
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const popoverContentHtmlId = useGeneratedHtmlId();
+
+    const buttonClickHandler = useCallback(() => {
+      setApiMateState({
+        ...createState(),
+        ...requestState,
+      });
+    }, [requestState, setApiMateState]);
+
+    const buttonOnMouseEnterHandler = useCallback(() => {
+      setIsPopoverOpen(true);
+    }, []);
+
+    const buttonOnMouseLeaveHandler = useCallback(() => {
+      setIsPopoverOpen(false);
+    }, []);
+
+    const closePopoverHandler = useCallback(() => {
+      setIsPopoverOpen(false);
+    }, []);
+
+    const button = useMemo(() => {
+      return (
+        <EuiButtonEmpty
+          key={created}
+          onClick={buttonClickHandler}
+          onMouseEnter={buttonOnMouseEnterHandler}
+          onMouseLeave={buttonOnMouseLeaveHandler}
+        >
+          <TextTruncate value={requestState.url} />
+        </EuiButtonEmpty>
+      );
+    }, [
+      buttonClickHandler,
+      buttonOnMouseEnterHandler,
+      buttonOnMouseLeaveHandler,
+      created,
+      requestState.url,
+    ]);
+
+    return (
+      <EuiPopover
+        isOpen={isPopoverOpen}
+        closePopover={closePopoverHandler}
+        button={button}
+        display="block"
+        anchorPosition="rightCenter"
+        initialFocus={`#${popoverContentHtmlId}`}
+        ownFocus={false}
+      >
+        <EuiText id={popoverContentHtmlId} style={{ maxWidth: '300px' }} tabIndex={-1} size="s">
+          <div className="eui-textBreakWord">
+            {requestState.httpVerb.toUpperCase() + ': ' + requestState.url}
+          </div>
+          <EuiHorizontalRule margin="s" />
+          <EuiFlexGroup responsive={false}>
+            <EuiFlexItem>
+              <div className="eui-textBreakWord">{new Date(created).toLocaleString()}</div>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiIcon type={wasSuccess ? 'check' : 'minusInCircle'} />
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </EuiText>
+      </EuiPopover>
+    );
+  }
+);
+HistoryItem.displayName = 'HistoryItem';

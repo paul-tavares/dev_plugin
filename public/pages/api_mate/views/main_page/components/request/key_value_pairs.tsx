@@ -122,10 +122,15 @@ export const KeyValueRow = memo<KeyValueRowProps>(({ name, value, onChange }) =>
     <EuiFormRow fullWidth>
       <EuiFlexGroup gutterSize="s" alignItems="center">
         <EuiFlexItem>
-          <EuiFieldText value={name} onChange={nameOnChangeHandler} fullWidth />
+          <EuiFieldText value={name} onChange={nameOnChangeHandler} fullWidth placeholder="name" />
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiFieldText value={value} onChange={valueOnChangeHandler} fullWidth />
+          <EuiFieldText
+            value={value}
+            onChange={valueOnChangeHandler}
+            fullWidth
+            placeholder="value"
+          />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiButtonIcon iconType="trash" onClick={removeRowHandler} />

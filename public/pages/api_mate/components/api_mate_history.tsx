@@ -21,7 +21,7 @@ export const ApiMateHistory = memo(({ children }) => {
   const [items, setItems] = useState<ApiMateHistoryItem[]>([]);
 
   const add: ApiMateHistoryInterface['add'] = useCallback(
-    ({ requestBody, requestHeaders, requestParams, url, httpVerb }) => {
+    ({ requestBody, requestHeaders, requestParams, url, httpVerb, wasSuccess }) => {
       setItems((prevState) => {
         const newHistoryStorage: HistoryStorage = {
           version: DATA_VERSION,
@@ -33,6 +33,7 @@ export const ApiMateHistory = memo(({ children }) => {
               requestParams,
               url,
               httpVerb,
+              wasSuccess,
             }),
             ...prevState,
           ],

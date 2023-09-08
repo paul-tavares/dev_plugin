@@ -22,4 +22,5 @@ export type ApiMateHistoryItem = Pick<
   'url' | 'httpVerb' | 'requestBody' | 'requestHeaders' | 'requestParams'
 > & {
   created: string;
+  wasSuccess: boolean;
 };
