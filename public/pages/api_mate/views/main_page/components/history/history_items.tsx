@@ -9,6 +9,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiIcon,
+  EuiBadge,
 } from '@elastic/eui';
 import { useApiMateHistory } from '../../../../components/api_mate_history';
 import { createState, useApiMateState } from '../../../../components/api_mate_store';
@@ -101,7 +102,7 @@ export const HistoryItem = memo<HistoryItemProps>(
       >
         <EuiText id={popoverContentHtmlId} style={{ maxWidth: '300px' }} tabIndex={-1} size="s">
           <div className="eui-textBreakWord">
-            {requestState.httpVerb.toUpperCase() + ': ' + requestState.url}
+            <EuiBadge>{requestState.httpVerb.toUpperCase()}</EuiBadge> {requestState.url}
           </div>
           <EuiHorizontalRule margin="s" />
           <EuiFlexGroup responsive={false}>

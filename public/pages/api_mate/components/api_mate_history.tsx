@@ -4,8 +4,8 @@ import { Storage } from '@kbn/kibana-utils-plugin/public';
 import { ApiMateHistoryItem } from '../types';
 
 const DATA_VERSION = 1;
-
-const storage = new Storage(window.localStorage);
+const MAX_HISTORY_ITEMS = 200;
+const STORAGE = new Storage(window.localStorage);
 
 const ApiMateHistoryContext = React.createContext<ApiMateHistoryInterface>(
   {} as ApiMateHistoryInterface
@@ -35,11 +35,11 @@ export const ApiMateHistory = memo(({ children }) => {
               httpVerb,
               wasSuccess,
             }),
-            ...prevState,
+            ...prevState.slice(MAX_HISTORY_ITEMS * -1),
           ],
         };
 
-        storage.set(storageKey, newHistoryStorage);
+        STORAGE.set(storageKey, newHistoryStorage);
 
         return newHistoryStorage.items;
       });
@@ -55,7 +55,7 @@ export const ApiMateHistory = memo(({ children }) => {
   }, [add, items]);
 
   useEffect(() => {
-    setItems((storage.get(storageKey) as HistoryStorage | undefined)?.items ?? []);
+    setItems((STORAGE.get(storageKey) as HistoryStorage | undefined)?.items ?? []);
 
     // !!
     // FUTURE: if we need to migrate the data, we can do it here
