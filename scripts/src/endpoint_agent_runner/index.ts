@@ -5,6 +5,7 @@ import { setupAll } from './setup';
 const runSetupAll: RunFn = async (cliContext) => {
   const username = cliContext.flags.username as string;
   const password = cliContext.flags.password as string;
+  const apiKey = cliContext.flags.apiKey as string;
   const kibanaUrl = cliContext.flags.kibanaUrl as string;
   const elasticUrl = cliContext.flags.elasticUrl as string;
   const version = cliContext.flags.version as string;
@@ -16,6 +17,7 @@ const runSetupAll: RunFn = async (cliContext) => {
     kibanaUrl,
     username,
     password,
+    apiKey,
     version,
     policy,
     log,
@@ -34,7 +36,7 @@ export const cli = () => {
   'multipass', install Elastic Agent and enroll it with Fleet. Can be used multiple times
   against the same stack.`,
       flags: {
-        string: ['kibana', 'elastic', 'username', 'password', 'version', 'policy'],
+        string: ['kibana', 'elastic', 'username', 'password', 'version', 'policy', 'apiKey'],
         default: {
           kibanaUrl: 'http://127.0.0.1:5601',
           elasticUrl: 'http://127.0.0.1:9200',
@@ -42,6 +44,7 @@ export const cli = () => {
           password: 'changeme',
           version: '',
           policy: '',
+          apiKey: '',
         },
         help: `
         --version           Optional. The version of the Agent to use for enrolling the new host.
@@ -55,6 +58,8 @@ export const cli = () => {
         --password          Optional. Password associated with the username (Default: changeme)
         --kibanaUrl         Optional. The url to Kibana (Default: http://127.0.0.1:5601)
         --elasticUrl        Optional. The url to Elasticsearch (Default: http://127.0.0.1:9200)
+        --apiKey            Optional. A kibana/ES API key. If defined, username and password will
+                            be ignored.
       `,
       },
     }

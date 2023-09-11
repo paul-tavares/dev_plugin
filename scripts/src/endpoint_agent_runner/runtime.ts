@@ -7,7 +7,7 @@ import type { StartRuntimeServicesOptions } from './types';
 interface EndpointRunnerRuntimeServices extends RuntimeServices {
   options: Omit<
     StartRuntimeServicesOptions,
-    'kibanaUrl' | 'elasticUrl' | 'username' | 'password' | 'log'
+    'kibanaUrl' | 'elasticUrl' | 'username' | 'password' | 'apiKey' | 'log'
   >;
 }
 
@@ -18,17 +18,17 @@ export const startRuntimeServices = async ({
   log = new ToolingLog(),
   elasticUrl,
   kibanaUrl,
-  fleetServerUrl,
   username,
   password,
+  apiKey,
   ...otherOptions
 }: StartRuntimeServicesOptions) => {
   const stackServices = await createRuntimeServices({
     kibanaUrl,
     elasticsearchUrl: elasticUrl,
-    fleetServerUrl,
     username,
     password,
+    apiKey,
     log,
     asSuperuser: otherOptions?.asSuperuser,
   });
