@@ -11,7 +11,7 @@ import {
   PACKAGE_POLICY_API_ROUTES,
   PACKAGE_POLICY_SAVED_OBJECT_TYPE,
 } from '@kbn/fleet-plugin/common';
-import { APP_API_ROUTES } from '@kbn/fleet-plugin/common/constants';
+import { API_VERSIONS, APP_API_ROUTES } from '@kbn/fleet-plugin/common/constants';
 import type {
   FleetServerHost,
   GenerateServiceTokenResponse,
@@ -34,6 +34,7 @@ import {
   fetchFleetServerUrl,
   waitForHostToEnroll,
 } from '@kbn/security-solution-plugin/scripts/endpoint/common/fleet_services';
+import { catchAxiosErrorFormatAndThrow } from '@kbn/security-solution-plugin/scripts/endpoint/common/format_axios_error';
 import { dump } from './utils';
 import { getRuntimeServices } from './runtime';
 
@@ -96,8 +97,12 @@ const getFleetServerPackagePolicy = async (): Promise<PackagePolicy | undefined>
         perPage: 1,
         kuery: `${PACKAGE_POLICY_SAVED_OBJECT_TYPE}.package.name: "${FLEET_SERVER_PACKAGE}"`,
       },
+      headers: {
+        'elastic-api-version': API_VERSIONS.public.v1,
+      },
     })
-    .then((response) => response.data.items[0]);
+    .then((response) => response.data.items[0])
+    .catch(catchAxiosErrorFormatAndThrow);
 };
 
 const getOrCreateFleetServerAgentPolicyId = async (): Promise<string> => {
