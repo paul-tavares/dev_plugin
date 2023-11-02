@@ -6,7 +6,7 @@ import { KibanaContextProvider } from '@kbn/kibana-react-plugin/public';
 import { CoreStart, ScopedHistory } from '@kbn/core/public';
 
 import { AppRoutes } from './app_routes';
-import { PLUGIN_NAME } from '../../../../.my/dev_plugin/common';
+import { PLUGIN_NAME } from '../../common';
 import { AppPluginStartDependencies } from '../types';
 
 interface DevPluginAppDeps {
