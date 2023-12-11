@@ -16,7 +16,7 @@ export interface HomePageProps {
 export const HomePage = memo<HomePageProps>((props) => {
   return (
     <AppPage
-      pageTitle="Endpoint Developer Tools"
+      pageTitle="Developer Tools"
       description="Various web based tools to help in development"
     >
       <EuiSpacer size="xl" />

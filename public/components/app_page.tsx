@@ -17,7 +17,7 @@ export const AppPage = memo<AppPage>(
         bottomBorder={true}
         restrictWidth={false}
         offset={0}
-        paddingSize="s"
+        paddingSize="none"
       >
         {sidebar && <EuiPageTemplate.Sidebar sticky={true}>{sidebar}</EuiPageTemplate.Sidebar>}
 
@@ -26,10 +26,11 @@ export const AppPage = memo<AppPage>(
             pageTitle={pageTitle}
             description={description}
             iconType={headerIcon}
+            paddingSize="l"
           />
         )}
 
-        <EuiPageTemplate.Section>{children}</EuiPageTemplate.Section>
+        <EuiPageTemplate.Section paddingSize="l">{children}</EuiPageTemplate.Section>
       </EuiPageTemplate>
     );
   }
