@@ -26,12 +26,22 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
     let wasSuccess = false;
 
     try {
+      const headers = requestHeaders.reduce((acc, headerEntry) => {
+        acc[headerEntry.name] = headerEntry.value;
+        return acc;
+      }, {} as Record<string, string>);
+
+      const query = requestParams.reduce((acc, paramEntry) => {
+        acc[paramEntry.name] = paramEntry.value;
+        return acc;
+      }, {} as Record<string, string>);
+
       const options: HttpFetchOptions & { asResponse: true } = {
         asResponse: true,
         body: requestBody ? requestBody : undefined,
-        headers: requestHeaders,
-        query: requestParams,
-        version: requestHeaders['elastic-api-version'],
+        headers,
+        query,
+        version: headers['elastic-api-version'],
       };
 
       response = await http[httpVerb](url, options);

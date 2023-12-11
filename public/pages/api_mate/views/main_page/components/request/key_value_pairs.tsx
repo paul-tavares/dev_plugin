@@ -10,23 +10,29 @@ import {
   EuiButtonIcon,
   type EuiFieldTextProps,
 } from '@elastic/eui';
+import { v4 as uuidV4 } from 'uuid';
+import { KeyValueList } from '../../../../types';
 
 export interface KeyValuePairsProps {
-  value: Record<string, string>;
-  onChange: (newValue: Record<string, string>) => void;
+  value: KeyValueList;
+  onChange: (newValue: KeyValueList) => void;
 }
+
+type KeyValuePair = KeyValueList[number];
 
 export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
   const keyValueRowOnChangeHandler: KeyValueRowProps['onChange'] = useCallback(
     ({ new: newPair, old: oldPair }) => {
-      const updatedValue = {
-        ...value,
-      };
+      const updatedValue: KeyValueList = [];
 
-      delete updatedValue[oldPair.name];
-
-      if (newPair) {
-        updatedValue[newPair.name] = newPair.value;
+      for (const keyValuePair of value) {
+        if (keyValuePair.id === oldPair.id) {
+          if (newPair) {
+            updatedValue.push(newPair);
+          }
+        } else {
+          updatedValue.push(keyValuePair);
+        }
       }
 
       onChange(updatedValue);
@@ -35,9 +41,7 @@ export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
   );
 
   const rowEntries = useMemo(() => {
-    const entries = Object.entries(value);
-
-    if (entries.length === 0) {
+    if (value.length === 0) {
       return (
         <EuiEmptyPrompt
           color="transparent"
@@ -53,12 +57,11 @@ export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
       );
     }
 
-    return entries.map(([key, keyValue], index) => {
+    return value.map((keyValueData) => {
       return (
         <KeyValueRow
-          name={key}
-          value={keyValue}
-          key={`item${index}`}
+          data={keyValueData}
+          key={keyValueData.id}
           onChange={keyValueRowOnChangeHandler}
         />
       );
@@ -66,10 +69,14 @@ export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
   }, [keyValueRowOnChangeHandler, value]);
 
   const addNewRowHandler = useCallback(() => {
-    onChange({
-      ...value,
-      '': '',
+    const newValues = [...value];
+    newValues.push({
+      name: '',
+      value: '',
+      id: uuidV4(),
     });
+
+    onChange(newValues);
   }, [onChange, value]);
 
   return (
@@ -84,59 +91,60 @@ export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
 });
 KeyValuePairs.displayName = 'KeyValuePairs';
 
-interface KeyValuePair {
-  name: string;
-  value: string;
-}
-
-export interface KeyValueRowProps extends KeyValuePair {
+export interface KeyValueRowProps {
+  data: KeyValuePair;
   onChange: (update: { old: KeyValuePair; new: KeyValuePair | undefined }) => void;
 }
 
-export const KeyValueRow = memo<KeyValueRowProps>(({ name, value, onChange }) => {
+export const KeyValueRow = memo<KeyValueRowProps>(({ data, onChange }) => {
   const nameOnChangeHandler: EuiFieldTextProps['onChange'] = useCallback(
     (ev) => {
       onChange({
-        old: { name, value },
-        new: { name: ev.target.value, value },
+        old: data,
+        new: { ...data, name: ev.target.value },
       });
     },
-    [name, onChange, value]
+    [data, onChange]
   );
 
   const valueOnChangeHandler: EuiFieldTextProps['onChange'] = useCallback(
     (ev) => {
       onChange({
-        old: { name, value },
-        new: { name, value: ev.target.value },
+        old: data,
+        new: { ...data, value: ev.target.value },
       });
     },
-    [name, onChange, value]
+    [data, onChange]
   );
 
   const removeRowHandler = useCallback(() => {
     onChange({
-      old: { name, value },
+      old: data,
       new: undefined,
     });
-  }, [name, onChange, value]);
+  }, [data, onChange]);
 
   return (
     <EuiFormRow fullWidth>
       <EuiFlexGroup gutterSize="s" alignItems="center">
         <EuiFlexItem>
-          <EuiFieldText value={name} onChange={nameOnChangeHandler} fullWidth placeholder="name" />
+          <EuiFieldText
+            value={data.name}
+            onChange={nameOnChangeHandler}
+            fullWidth
+            placeholder="name"
+          />
         </EuiFlexItem>
         <EuiFlexItem>
           <EuiFieldText
-            value={value}
+            value={data.value}
             onChange={valueOnChangeHandler}
             fullWidth
             placeholder="value"
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButtonIcon iconType="trash" onClick={removeRowHandler} />
+          <EuiButtonIcon iconType="trash" onClick={removeRowHandler} aria-label={'remove item'} />
         </EuiFlexItem>
       </EuiFlexGroup>
     </EuiFormRow>

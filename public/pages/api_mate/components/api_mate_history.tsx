@@ -3,7 +3,7 @@ import { clone } from 'lodash';
 import { Storage } from '@kbn/kibana-utils-plugin/public';
 import { ApiMateHistoryItem } from '../types';
 
-const DATA_VERSION = 1;
+const DATA_VERSION = 2;
 const MAX_HISTORY_ITEMS = 200;
 const STORAGE = new Storage(window.localStorage);
 
@@ -55,11 +55,48 @@ export const ApiMateHistory = memo(({ children }) => {
   }, [add, items]);
 
   useEffect(() => {
-    setItems((STORAGE.get(storageKey) as HistoryStorage | undefined)?.items ?? []);
+    const storedHistory = STORAGE.get(storageKey) as HistoryStorage | undefined;
+    let dataItems = storedHistory?.items ?? [];
 
-    // !!
-    // FUTURE: if we need to migrate the data, we can do it here
-    // !!
+    // Perform history Data migration if needed
+    if (storedHistory && dataItems.length) {
+      let dataVersion = storedHistory.version;
+
+      // V2:
+      //  - added new data structure for `requestParams` and `requestHeaders`
+      if (dataVersion < 2) {
+        dataVersion = 2;
+        dataItems = storedHistory.items.map((historyEntry) => {
+          return {
+            ...historyEntry,
+            requestParams: Object.entries(
+              historyEntry.requestParams as unknown as Record<string, string>
+            ).map(([key, value]) => {
+              return {
+                name: key,
+                value,
+                id: key,
+              };
+            }),
+            requestHeaders: Object.entries(
+              historyEntry.requestHeaders as unknown as Record<string, string>
+            ).map(([key, value]) => {
+              return {
+                name: key,
+                value,
+                id: key,
+              };
+            }),
+          };
+        });
+      }
+
+      if (dataVersion < 3) {
+        // Add migration for v3 whenever that is needed
+      }
+    }
+
+    setItems(dataItems);
   }, []);
 
   return (
