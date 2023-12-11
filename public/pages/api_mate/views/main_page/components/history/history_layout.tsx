@@ -3,9 +3,8 @@ import { EuiHorizontalRule, EuiSpacer, EuiTitle } from '@elastic/eui';
 import { HistoryItems } from './history_items';
 
 export const HistoryLayout = memo(() => {
-  // FIXME:PT work to access styles from EUI using emotion for `width` below
   return (
-    <div style={{ width: '200px' }}>
+    <div style={{ width: '25vh', minWidth: '250px' }}>
       <EuiTitle size="xs">
         <h2>{'History'}</h2>
       </EuiTitle>

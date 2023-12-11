@@ -6,7 +6,7 @@ export interface TextTruncateProps extends Omit<EuiTextProps, 'children'> {
   showLast?: number;
 }
 
-export const TextTruncate = memo<TextTruncateProps>(({ showLast = 10, value, ...txtProps }) => {
+export const TextTruncate = memo<TextTruncateProps>(({ showLast = 15, value, ...txtProps }) => {
   // FIXME:PT Delete this and use `EuiTextTruncate` when that version of Eui (88.2.0) is available
 
   const leftSide = useMemo(() => {

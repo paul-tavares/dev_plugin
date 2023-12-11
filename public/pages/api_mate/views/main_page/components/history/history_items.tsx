@@ -100,7 +100,12 @@ export const HistoryItem = memo<HistoryItemProps>(
         initialFocus={`#${popoverContentHtmlId}`}
         ownFocus={false}
       >
-        <EuiText id={popoverContentHtmlId} style={{ maxWidth: '300px' }} tabIndex={-1} size="s">
+        <EuiText
+          id={popoverContentHtmlId}
+          style={{ maxWidth: '50vh', minWidth: '300px' }}
+          tabIndex={-1}
+          size="s"
+        >
           <div className="eui-textBreakWord">
             <EuiBadge>{requestState.httpVerb.toUpperCase()}</EuiBadge> {requestState.url}
           </div>
@@ -110,7 +115,10 @@ export const HistoryItem = memo<HistoryItemProps>(
               <div className="eui-textBreakWord">{new Date(created).toLocaleString()}</div>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiIcon type={wasSuccess ? 'check' : 'minusInCircle'} />
+              <EuiIcon
+                type={wasSuccess ? 'check' : 'minusInCircle'}
+                color={wasSuccess ? 'success' : 'danger'}
+              />
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiText>
