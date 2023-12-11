@@ -4,6 +4,8 @@ import { RequestBody } from './request_body';
 import { RequestQueryParams } from './request_query_params';
 import { AccordionSection } from '../accordion_section';
 import { RequestHeaders } from './request_headers';
+import { RequestHeadersCount } from './request_headers_count';
+import { RequestQueryParamsCount } from './request_query_params_count';
 
 export const RequestLayout = memo(() => {
   return (
@@ -22,13 +24,23 @@ export const RequestLayout = memo(() => {
       <EuiSpacer size="xl" />
       <EuiHorizontalRule />
 
-      <AccordionSection title="Query Params" initiallyOpen={false} paddingSize="m">
+      <AccordionSection
+        title="Query Params"
+        initiallyOpen={false}
+        paddingSize="m"
+        extraAction={<RequestQueryParamsCount />}
+      >
         <RequestQueryParams />
       </AccordionSection>
       <EuiSpacer size="m" />
       <EuiHorizontalRule />
 
-      <AccordionSection title="Request Headers" initiallyOpen={false} paddingSize="m">
+      <AccordionSection
+        title="Request Headers"
+        initiallyOpen={false}
+        paddingSize="m"
+        extraAction={<RequestHeadersCount />}
+      >
         <RequestHeaders />
       </AccordionSection>
     </div>

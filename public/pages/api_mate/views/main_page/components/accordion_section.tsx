@@ -1,17 +1,17 @@
 import React, { CSSProperties, memo, PropsWithChildren, useMemo } from 'react';
 import { EuiAccordion, EuiSpacer, useEuiTheme, useGeneratedHtmlId } from '@elastic/eui';
-import { EuiPanelProps } from '@elastic/eui/src/components/panel/panel';
+import { EuiAccordionProps } from '@elastic/eui/src/components/accordion/accordion';
 import { HeaderDisplay } from './header_display';
 
-export type AccordionSectionProps = PropsWithChildren<{
-  title: string;
-  initiallyOpen?: boolean;
-  minHeight?: string | true;
-  paddingSize?: EuiPanelProps['paddingSize'];
-}>;
+export type AccordionSectionProps = Pick<EuiAccordionProps, 'paddingSize' | 'extraAction'> &
+  PropsWithChildren<{
+    title: string;
+    initiallyOpen?: boolean;
+    minHeight?: string | true;
+  }>;
 
 export const AccordionSection = memo<AccordionSectionProps>(
-  ({ title, initiallyOpen = true, minHeight, paddingSize, children }) => {
+  ({ title, initiallyOpen = true, minHeight, paddingSize, extraAction, children }) => {
     const accordionId = useGeneratedHtmlId();
     const theme = useEuiTheme();
 
@@ -36,7 +36,12 @@ export const AccordionSection = memo<AccordionSectionProps>(
     }, [title]);
 
     return (
-      <EuiAccordion id={accordionId} buttonContent={buttonTitle} initialIsOpen={initiallyOpen}>
+      <EuiAccordion
+        id={accordionId}
+        buttonContent={buttonTitle}
+        initialIsOpen={initiallyOpen}
+        extraAction={extraAction}
+      >
         <EuiSpacer size="s" />
         <div style={styles}>{children}</div>
       </EuiAccordion>
