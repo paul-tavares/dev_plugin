@@ -23,10 +23,16 @@ export const HistoryItems = memo(() => {
   const [searchValue, setSearchValue] = useState('');
 
   const entryList = useMemo(() => {
-    return items.map((requestData) => {
-      return <HistoryItem key={requestData.created} item={requestData} />;
-    });
-  }, [items]);
+    const displayEntries: JSX.Element[] = [];
+
+    for (const item of items) {
+      if (!searchValue || historyItemMatches(item, searchValue)) {
+        displayEntries.push(<HistoryItem key={item.created} item={item} />);
+      }
+    }
+
+    return displayEntries;
+  }, [items, searchValue]);
 
   const handleSearchValueOnChange: EuiFieldSearchProps['onChange'] = useCallback((ev) => {
     setSearchValue(ev.target.value);
@@ -147,3 +153,10 @@ export const HistoryItem = memo<HistoryItemProps>(
   }
 );
 HistoryItem.displayName = 'HistoryItem';
+
+const historyItemMatches = (
+  { url, requestHeaders, requestBody, requestParams }: ApiMateHistoryItem,
+  matchString: string
+): boolean => {
+  return JSON.stringify([url, requestHeaders, requestBody, requestHeaders]).includes(matchString);
+};
