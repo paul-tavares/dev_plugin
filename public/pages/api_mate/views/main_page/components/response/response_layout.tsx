@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { EuiHorizontalRule, EuiSpacer, EuiTitle } from '@elastic/eui';
 import { ResponseBody } from './response_body';
 import { AccordionSection } from '../accordion_section';
+import { ResponseStatus } from './response_status';
 
 export const ResponseLayout = memo(() => {
   return (
@@ -13,7 +14,7 @@ export const ResponseLayout = memo(() => {
       <EuiHorizontalRule margin="s" />
       <EuiSpacer size="m" />
 
-      <AccordionSection title="Body" minHeight>
+      <AccordionSection title="Body" minHeight extraAction={<ResponseStatus />}>
         <ResponseBody />
       </AccordionSection>
     </div>
