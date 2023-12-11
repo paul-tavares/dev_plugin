@@ -12,7 +12,7 @@ import { HttpMethod } from '../../../../types';
 import { ApiRouteInput } from './api_route_input';
 
 export const RequestUrl = memo((props) => {
-  const [{ loading, httpVerb }, setStore] = useApiMateState();
+  const [{ loading, httpVerb, url }, setStore] = useApiMateState();
   const sendRequest = useSubmitApiRequest();
 
   const httpMethodValues: EuiSuperSelectProps<HttpMethod>['options'] = useMemo(() => {
@@ -55,6 +55,10 @@ export const RequestUrl = memo((props) => {
     ];
   }, []);
 
+  const sendButtonDisabled = useMemo(() => {
+    return url.trim().length === 0 || loading;
+  }, [loading, url]);
+
   const handleHttpMethodOnChange: EuiSuperSelectProps<HttpMethod>['onChange'] = useCallback(
     (value) => {
       setStore((prevState) => {
@@ -94,7 +98,7 @@ export const RequestUrl = memo((props) => {
           iconType="frameNext"
           iconSide="right"
           onClick={handleSendButtonOnClick}
-          disabled={loading}
+          disabled={sendButtonDisabled}
         >
           {'Send'}
         </EuiButton>

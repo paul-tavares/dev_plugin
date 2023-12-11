@@ -10,7 +10,9 @@ import {
   EuiFlexItem,
   EuiIcon,
   EuiBadge,
+  EuiFieldSearch,
 } from '@elastic/eui';
+import { EuiFieldSearchProps } from '@elastic/eui/src/components/form/field_search/field_search';
 import { useApiMateHistory } from '../../../../components/api_mate_history';
 import { createState, useApiMateState } from '../../../../components/api_mate_store';
 import { TextTruncate } from '../../../../components/text_truncate';
@@ -18,12 +20,17 @@ import { ApiMateHistoryItem } from '../../../../types';
 
 export const HistoryItems = memo(() => {
   const { items } = useApiMateHistory();
+  const [searchValue, setSearchValue] = useState('');
 
   const entryList = useMemo(() => {
     return items.map((requestData) => {
       return <HistoryItem key={requestData.created} item={requestData} />;
     });
   }, [items]);
+
+  const handleSearchValueOnChange: EuiFieldSearchProps['onChange'] = useCallback((ev) => {
+    setSearchValue(ev.target.value);
+  }, []);
 
   if (items.length === 0) {
     return (
@@ -38,7 +45,20 @@ export const HistoryItems = memo(() => {
     );
   }
 
-  return <div>{entryList}</div>;
+  return (
+    <div>
+      <div>
+        <EuiFieldSearch
+          placeholder="search history"
+          value={searchValue}
+          onChange={handleSearchValueOnChange}
+          isClearable
+          aria-label="search history items"
+        />
+      </div>
+      <div>{entryList}</div>
+    </div>
+  );
 });
 HistoryItems.displayName = 'HistoryItems';
 

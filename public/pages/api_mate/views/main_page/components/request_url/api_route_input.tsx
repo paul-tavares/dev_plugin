@@ -23,7 +23,7 @@ export const ApiRouteInput = memo(() => {
 
   const handleInputOnKeyUp: React.KeyboardEventHandler<HTMLInputElement> = useCallback(
     (ev) => {
-      if (ev.key === 'Enter') {
+      if (ev.key === 'Enter' && url.trim().length > 0) {
         sendRequest();
       }
     },
