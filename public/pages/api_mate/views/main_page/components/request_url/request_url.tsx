@@ -79,6 +79,9 @@ export const RequestUrl = memo((props) => {
           onChange={handleHttpMethodOnChange}
           valueOfSelected={httpVerb ?? 'get'}
           fullWidth
+          popoverProps={{
+            panelMinWidth: 140,
+          }}
         />
       </EuiFlexItem>
 
