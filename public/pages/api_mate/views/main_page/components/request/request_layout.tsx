@@ -22,13 +22,13 @@ export const RequestLayout = memo(() => {
       <EuiSpacer size="xl" />
       <EuiHorizontalRule />
 
-      <AccordionSection title="Query Params" initiallyOpen={false}>
+      <AccordionSection title="Query Params" initiallyOpen={false} paddingSize="m">
         <RequestQueryParams />
       </AccordionSection>
       <EuiSpacer size="m" />
       <EuiHorizontalRule />
 
-      <AccordionSection title="Request Headers" initiallyOpen={false}>
+      <AccordionSection title="Request Headers" initiallyOpen={false} paddingSize="m">
         <RequestHeaders />
       </AccordionSection>
     </div>

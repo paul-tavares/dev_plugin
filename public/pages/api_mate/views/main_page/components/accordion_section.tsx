@@ -1,15 +1,17 @@
 import React, { CSSProperties, memo, PropsWithChildren, useMemo } from 'react';
 import { EuiAccordion, EuiSpacer, useEuiTheme, useGeneratedHtmlId } from '@elastic/eui';
+import { EuiPanelProps } from '@elastic/eui/src/components/panel/panel';
 import { HeaderDisplay } from './header_display';
 
 export type AccordionSectionProps = PropsWithChildren<{
   title: string;
   initiallyOpen?: boolean;
   minHeight?: string | true;
+  paddingSize?: EuiPanelProps['paddingSize'];
 }>;
 
 export const AccordionSection = memo<AccordionSectionProps>(
-  ({ title, initiallyOpen = true, minHeight, children }) => {
+  ({ title, initiallyOpen = true, minHeight, paddingSize, children }) => {
     const accordionId = useGeneratedHtmlId();
     const theme = useEuiTheme();
 
@@ -20,6 +22,10 @@ export const AccordionSection = memo<AccordionSectionProps>(
 
       if (minHeight) {
         divStyles.minHeight = minHeight === true ? '30vh' : minHeight;
+      }
+
+      if (paddingSize && paddingSize !== 'none' && theme.euiTheme.size[paddingSize]) {
+        divStyles.padding = theme.euiTheme.size[paddingSize];
       }
 
       return divStyles;
