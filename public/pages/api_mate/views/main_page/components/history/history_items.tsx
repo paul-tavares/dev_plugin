@@ -158,5 +158,7 @@ const historyItemMatches = (
   { url, requestHeaders, requestBody, requestParams }: ApiMateHistoryItem,
   matchString: string
 ): boolean => {
-  return JSON.stringify([url, requestHeaders, requestBody, requestHeaders]).includes(matchString);
+  return JSON.stringify([url, requestHeaders, requestBody, requestHeaders])
+    .toLocaleString()
+    .includes(matchString.toLowerCase());
 };
