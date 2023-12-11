@@ -13,7 +13,7 @@ export const ResponseLayout = memo(() => {
       <EuiHorizontalRule margin="s" />
       <EuiSpacer size="m" />
 
-      <AccordionSection title="Body">
+      <AccordionSection title="Body" minHeight>
         <ResponseBody />
       </AccordionSection>
     </div>
