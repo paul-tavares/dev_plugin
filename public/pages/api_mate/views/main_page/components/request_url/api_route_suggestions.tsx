@@ -14,7 +14,16 @@ export const ApiRouteSuggestions = memo<ApiRouteSuggestionsProps>(({ onSelect })
   const { items: historyItems } = useApiMateHistory();
 
   const selectionOptions: EuiSelectableProps['options'] = useMemo(() => {
-    return historyItems.map((historyItem) => {
+    const uniqHistoryItems: Record<string, ApiMateHistoryItem> = {};
+
+    for (const historyItem of historyItems) {
+      const key = `${historyItem.httpVerb}:${historyItem.url}`;
+      if (!uniqHistoryItems[key]) {
+        uniqHistoryItems[key] = historyItem;
+      }
+    }
+
+    return Object.values(uniqHistoryItems).map((historyItem) => {
       return {
         key: historyItem.created,
         label: historyItem.url,
