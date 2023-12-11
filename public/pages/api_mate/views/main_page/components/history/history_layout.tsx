@@ -12,7 +12,14 @@ export const HistoryLayout = memo(() => {
       <EuiHorizontalRule margin="s" />
       <EuiSpacer size="m" />
 
-      <HistoryItems />
+      <div
+        className="eui-yScroll"
+        style={{
+          height: '65vh',
+        }}
+      >
+        <HistoryItems />
+      </div>
     </div>
   );
 });
