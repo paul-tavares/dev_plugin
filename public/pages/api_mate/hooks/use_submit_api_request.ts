@@ -8,7 +8,7 @@ import { ApiMateState } from '../types';
 
 export const useSubmitApiRequest = (): (() => Promise<void>) => {
   const { http } = useKibanaServices();
-  const [{ url, requestHeaders, requestParams, requestBody, httpVerb }, setStore] =
+  const [{ url, requestHeaders, requestParams, requestBody, httpVerb, destination }, setStore] =
     useApiMateState();
   const { add: addHistoryItem } = useApiMateHistory();
 
@@ -44,7 +44,20 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
         version: headers['elastic-api-version'],
       };
 
-      response = await http[httpVerb](url, options);
+      if (destination === 'elasticsearch') {
+        const searchParams = new URLSearchParams(query);
+
+        response = await http.post('/api/console/proxy', {
+          ...options,
+          query: {
+            method: httpVerb.toUpperCase(),
+            path: url + '?' + searchParams.toString(),
+          },
+        });
+      } else {
+        response = await http[httpVerb](url, options);
+      }
+
       wasSuccess = true;
     } catch (err) {
       window.console.log(err);
