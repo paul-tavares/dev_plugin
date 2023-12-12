@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import {
   EuiButton,
+  EuiButtonEmpty,
   EuiFlexGroup,
   EuiFlexItem,
   EuiSuperSelect,
@@ -75,6 +76,22 @@ export const RequestUrl = memo((props) => {
     sendRequest();
   }, [sendRequest]);
 
+  const handleClearButtonOnClick = useCallback(() => {
+    setStore((prevState) => {
+      return {
+        ...prevState,
+        url: '',
+        httpVerb: 'get',
+        requestHeaders: [],
+        requestParams: [],
+        requestBody: '',
+        responseStatus: 0,
+        responseStatusText: '',
+        responseBody: '',
+      };
+    });
+  }, [setStore]);
+
   return (
     <EuiFlexGroup wrap={false} responsive={false} gutterSize="m">
       <EuiFlexItem grow={false}>
@@ -94,14 +111,23 @@ export const RequestUrl = memo((props) => {
       </EuiFlexItem>
 
       <EuiFlexItem grow={false}>
-        <EuiButton
-          iconType="frameNext"
-          iconSide="right"
-          onClick={handleSendButtonOnClick}
-          disabled={sendButtonDisabled}
-        >
-          {'Send'}
-        </EuiButton>
+        <EuiFlexGroup responsive={false} gutterSize="s">
+          <EuiFlexItem>
+            <EuiButton
+              iconType="frameNext"
+              iconSide="right"
+              onClick={handleSendButtonOnClick}
+              disabled={sendButtonDisabled}
+            >
+              {'Send'}
+            </EuiButton>
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <EuiButtonEmpty onClick={handleClearButtonOnClick} flush="both" disabled={loading}>
+              {'Clear'}
+            </EuiButtonEmpty>
+          </EuiFlexItem>
+        </EuiFlexGroup>
       </EuiFlexItem>
     </EuiFlexGroup>
   );
