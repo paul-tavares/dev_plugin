@@ -3,7 +3,7 @@ import { clone } from 'lodash';
 import { Storage } from '@kbn/kibana-utils-plugin/public';
 import { ApiMateHistoryItem } from '../types';
 
-const DATA_VERSION = 2;
+const DATA_VERSION = 3;
 const MAX_HISTORY_ITEMS = 200;
 const STORAGE = new Storage(window.localStorage);
 
@@ -21,13 +21,14 @@ export const ApiMateHistory = memo(({ children }) => {
   const [items, setItems] = useState<ApiMateHistoryItem[]>([]);
 
   const add: ApiMateHistoryInterface['add'] = useCallback(
-    ({ requestBody, requestHeaders, requestParams, url, httpVerb, wasSuccess }) => {
+    ({ requestBody, destination, requestHeaders, requestParams, url, httpVerb, wasSuccess }) => {
       setItems((prevState) => {
         const newHistoryStorage: HistoryStorage = {
           version: DATA_VERSION,
           items: [
             clone({
               created: new Date().toISOString(),
+              destination,
               requestBody,
               requestHeaders,
               requestParams,
@@ -62,6 +63,7 @@ export const ApiMateHistory = memo(({ children }) => {
     if (storedHistory && dataItems.length) {
       let dataVersion = storedHistory.version;
 
+      // =======================================================================
       // V2:
       //  - added new data structure for `requestParams` and `requestHeaders`
       if (dataVersion < 2) {
@@ -91,8 +93,17 @@ export const ApiMateHistory = memo(({ children }) => {
         });
       }
 
+      // =======================================================================
+      // V3
+      //  - Added `destination` to capture where the API call was sent
       if (dataVersion < 3) {
-        // Add migration for v3 whenever that is needed
+        dataVersion = 3;
+        dataItems = storedHistory.items.map((historyEntry) => {
+          return {
+            ...historyEntry,
+            destination: 'kibana',
+          };
+        });
       }
     }
 

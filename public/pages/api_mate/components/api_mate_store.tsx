@@ -10,6 +10,7 @@ const ApiMateStoreContext = React.createContext<ApiMateStoreContent>({} as ApiMa
 
 export const createState = (): ApiMateState => {
   return {
+    destination: 'kibana',
     url: '',
     httpVerb: 'get',
     loading: false,

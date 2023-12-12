@@ -5,9 +5,12 @@ export type HttpMethod = keyof Pick<
   'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put'
 >;
 
+export type DestinationSystem = 'kibana' | 'elasticsearch';
+
 export type KeyValueList = Array<{ name: string; value: string; id: string }>;
 
 export interface ApiMateState {
+  destination: DestinationSystem;
   url: string;
   httpVerb: HttpMethod;
   loading: boolean;
@@ -21,7 +24,7 @@ export interface ApiMateState {
 
 export type ApiMateHistoryItem = Pick<
   ApiMateState,
-  'url' | 'httpVerb' | 'requestBody' | 'requestHeaders' | 'requestParams'
+  'url' | 'httpVerb' | 'requestBody' | 'requestHeaders' | 'requestParams' | 'destination'
 > & {
   created: string;
   wasSuccess: boolean;
