@@ -17,6 +17,7 @@ import { useApiMateHistory } from '../../../../components/api_mate_history';
 import { createState, useApiMateState } from '../../../../components/api_mate_store';
 import { TextTruncate } from '../../../../components/text_truncate';
 import { ApiMateHistoryItem } from '../../../../types';
+import { DestinationSystemBadge } from '../../../../components/destination_system_badge';
 
 export const HistoryItems = memo(() => {
   const { items } = useApiMateHistory();
@@ -107,7 +108,7 @@ export const HistoryItem = memo<HistoryItemProps>(
         >
           <EuiFlexGroup responsive={false} gutterSize="xs">
             <EuiFlexItem grow={false}>
-              <EuiBadge>{requestState.destination === 'elasticsearch' ? 'ES' : 'KBN'}</EuiBadge>
+              <DestinationSystemBadge value={requestState.destination} />
             </EuiFlexItem>
             <EuiFlexItem grow={false} className="eui-textTruncate">
               <TextTruncate value={requestState.url} size="s" />

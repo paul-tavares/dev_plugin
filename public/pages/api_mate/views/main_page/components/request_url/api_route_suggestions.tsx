@@ -4,6 +4,7 @@ import { EuiSelectableProps } from '@elastic/eui/src/components/selectable/selec
 import { useApiMateHistory } from '../../../../components/api_mate_history';
 import { useApiMateState } from '../../../../components/api_mate_store';
 import { ApiMateHistoryItem } from '../../../../types';
+import { DestinationSystemBadge } from '../../../../components/destination_system_badge';
 
 export interface ApiRouteSuggestionsProps {
   onSelect: (selection: ApiMateHistoryItem) => void;
@@ -28,7 +29,12 @@ export const ApiRouteSuggestions = memo<ApiRouteSuggestionsProps>(({ onSelect })
         key: historyItem.created,
         label: historyItem.url,
         data: historyItem,
-        prepend: <EuiBadge>{historyItem.httpVerb.toUpperCase()}</EuiBadge>,
+        prepend: (
+          <div>
+            <DestinationSystemBadge value={historyItem.destination} />
+            <EuiBadge>{historyItem.httpVerb.toUpperCase()}</EuiBadge>
+          </div>
+        ),
       };
     });
   }, [historyItems]);
@@ -40,6 +46,7 @@ export const ApiRouteSuggestions = memo<ApiRouteSuggestionsProps>(({ onSelect })
           ...prevState,
           url: option.data.url,
           httpVerb: option.data.httpVerb,
+          destination: option.data.destination,
         };
       });
 
