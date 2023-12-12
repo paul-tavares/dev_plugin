@@ -105,7 +105,14 @@ export const HistoryItem = memo<HistoryItemProps>(
           onMouseEnter={buttonOnMouseEnterHandler}
           onMouseLeave={buttonOnMouseLeaveHandler}
         >
-          <TextTruncate value={requestState.url} size="s" />
+          <EuiFlexGroup responsive={false} gutterSize="xs">
+            <EuiFlexItem grow={false}>
+              <EuiBadge>{requestState.destination === 'elasticsearch' ? 'ES' : 'KBN'}</EuiBadge>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false} className="eui-textTruncate">
+              <TextTruncate value={requestState.url} size="s" />
+            </EuiFlexItem>
+          </EuiFlexGroup>
         </EuiButtonEmpty>
       );
     }, [
