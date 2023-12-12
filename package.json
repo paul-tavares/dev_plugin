@@ -1,13 +1,19 @@
 {
   "name": "devPlugin",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
+  "repository": {
+    "url": "https://github.com/paul-tavares/dev_plugin"
+  },
+  "author": {
+    "name": "Paul Tavares"
+  },
   "scripts": {
     "build": "yarn plugin-helpers build --kibana-version x.x.x",
     "dev": "yarn plugin-helpers dev",
     "dev:watch": "yarn dev --watch",
-    "bootstrap": "yarn kbn bootstrap && yarn install",
-    "compile": "yarn build && unzip -o ./build/devPlugin-x.x.x.zip 'kibana/devPlugin/target/*' -d ./target && rm -fR target/public && mv -f target/kibana/devPlugin/target/* ./target/ && rm -fR target/kibana",
+    "bootstrap": "yarn kbn bootstrap && yarn install && yarn dev",
+    "_compile": "yarn build && unzip -o ./build/devPlugin-x.x.x.zip 'kibana/devPlugin/target/*' -d ./target && rm -fR target/public && mv -f target/kibana/devPlugin/target/* ./target/ && rm -fR target/kibana",
     "plugin-helpers": "NODE_OPTIONS=\"${NODE_OPTIONS} --openssl-legacy-provider\" node ../../scripts/plugin_helpers",
     "kbn": "NODE_OPTIONS=\"${NODE_OPTIONS} --openssl-legacy-provider\" node ../../scripts/kbn"
   }
