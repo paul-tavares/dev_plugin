@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "kibanaVersion": "kibana",
   "owner": {
-    "name": "security solution",
+    "name": "Paul Tavares",
     "githubTeam": ""
   },
   "description": "tools",
