@@ -126,6 +126,7 @@ export const HistoryItem = memo<HistoryItemProps>(
       buttonOnMouseLeaveHandler,
       created,
       requestState.destination,
+      requestState.httpVerb,
       requestState.url,
     ]);
 

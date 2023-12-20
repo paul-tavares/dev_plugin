@@ -7,7 +7,7 @@ import {
   EuiSuperSelect,
   EuiSuperSelectProps,
 } from '@elastic/eui';
-import { useApiMateState } from '../../../../components/api_mate_store';
+import { createState, useApiMateState } from '../../../../components/api_mate_store';
 import { useSubmitApiRequest } from '../../../../hooks/use_submit_api_request';
 import { DestinationSystem, HttpMethod } from '../../../../types';
 import { ApiRouteInput } from './api_route_input';
@@ -104,19 +104,8 @@ export const RequestUrl = memo((props) => {
   }, [sendRequest]);
 
   const handleClearButtonOnClick = useCallback(() => {
-    setStore((prevState) => {
-      return {
-        ...prevState,
-        url: '',
-        destination: 'kibana',
-        httpVerb: 'get',
-        requestHeaders: [],
-        requestParams: [],
-        requestBody: '',
-        responseStatus: 0,
-        responseStatusText: '',
-        responseBody: '',
-      };
+    setStore(() => {
+      return createState();
     });
   }, [setStore]);
 

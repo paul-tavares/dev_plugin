@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo, useState, useContext, useEffect } from 'react';
-import { clone } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { Storage } from '@kbn/kibana-utils-plugin/public';
 import { ApiMateHistoryItem } from '../types';
 
@@ -26,7 +26,7 @@ export const ApiMateHistory = memo(({ children }) => {
         const newHistoryStorage: HistoryStorage = {
           version: DATA_VERSION,
           items: [
-            clone({
+            cloneDeep({
               created: new Date().toISOString(),
               destination,
               requestBody,
@@ -36,7 +36,7 @@ export const ApiMateHistory = memo(({ children }) => {
               httpVerb,
               wasSuccess,
             }),
-            ...prevState.slice(MAX_HISTORY_ITEMS * -1),
+            ...prevState.slice(0, MAX_HISTORY_ITEMS - 1),
           ],
         };
 

@@ -27,7 +27,7 @@ export const ApiRouteInput = memo(() => {
         sendRequest();
       }
     },
-    [sendRequest]
+    [sendRequest, url]
   );
 
   const inputOnKeyDownHandler: React.KeyboardEventHandler<HTMLInputElement> = useCallback((ev) => {
