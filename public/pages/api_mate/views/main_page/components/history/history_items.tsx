@@ -18,6 +18,7 @@ import { createState, useApiMateState } from '../../../../components/api_mate_st
 import { TextTruncate } from '../../../../components/text_truncate';
 import { ApiMateHistoryItem } from '../../../../types';
 import { DestinationSystemBadge } from '../../../../components/destination_system_badge';
+import { HttpMethodBadge } from '../../../../components/http_method_badge';
 
 export const HistoryItems = memo(() => {
   const { items } = useApiMateHistory();
@@ -106,9 +107,12 @@ export const HistoryItem = memo<HistoryItemProps>(
           onMouseEnter={buttonOnMouseEnterHandler}
           onMouseLeave={buttonOnMouseLeaveHandler}
         >
-          <EuiFlexGroup responsive={false} gutterSize="xs">
+          <EuiFlexGroup responsive={false} gutterSize="xs" wrap={false}>
             <EuiFlexItem grow={false}>
-              <DestinationSystemBadge value={requestState.destination} />
+              <EuiFlexGroup gutterSize="none">
+                <DestinationSystemBadge value={requestState.destination} />
+                <HttpMethodBadge>{requestState.httpVerb}</HttpMethodBadge>
+              </EuiFlexGroup>
             </EuiFlexItem>
             <EuiFlexItem grow={false} className="eui-textTruncate">
               <TextTruncate value={requestState.url} size="s" />
@@ -121,6 +125,7 @@ export const HistoryItem = memo<HistoryItemProps>(
       buttonOnMouseEnterHandler,
       buttonOnMouseLeaveHandler,
       created,
+      requestState.destination,
       requestState.url,
     ]);
 

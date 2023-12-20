@@ -1,10 +1,11 @@
-import { EuiBadge, EuiSelectable, EuiText } from '@elastic/eui';
+import { EuiSelectable, EuiText } from '@elastic/eui';
 import React, { memo, useCallback, useMemo } from 'react';
 import { EuiSelectableProps } from '@elastic/eui/src/components/selectable/selectable';
 import { useApiMateHistory } from '../../../../components/api_mate_history';
 import { useApiMateState } from '../../../../components/api_mate_store';
 import { ApiMateHistoryItem } from '../../../../types';
 import { DestinationSystemBadge } from '../../../../components/destination_system_badge';
+import { HttpMethodBadge } from '../../../../components/http_method_badge';
 
 export interface ApiRouteSuggestionsProps {
   onSelect: (selection: ApiMateHistoryItem) => void;
@@ -32,7 +33,7 @@ export const ApiRouteSuggestions = memo<ApiRouteSuggestionsProps>(({ onSelect })
         prepend: (
           <div>
             <DestinationSystemBadge value={historyItem.destination} />
-            <EuiBadge>{historyItem.httpVerb.toUpperCase()}</EuiBadge>
+            <HttpMethodBadge>{historyItem.httpVerb}</HttpMethodBadge>
           </div>
         ),
       };
