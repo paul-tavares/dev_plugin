@@ -38,7 +38,7 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
 
       const options: HttpFetchOptions & { asResponse: true } = {
         asResponse: true,
-        body: requestBody ? requestBody : undefined,
+        body: requestBody.trim() ? requestBody : undefined,
         headers,
         query,
         version: headers['elastic-api-version'],
@@ -81,5 +81,15 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
         return updatedState;
       });
     }
-  }, [addHistoryItem, http, httpVerb, requestBody, requestHeaders, requestParams, setStore, url]);
+  }, [
+    addHistoryItem,
+    destination,
+    http,
+    httpVerb,
+    requestBody,
+    requestHeaders,
+    requestParams,
+    setStore,
+    url,
+  ]);
 };
