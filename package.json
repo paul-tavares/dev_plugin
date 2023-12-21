@@ -13,8 +13,10 @@
     "dev": "yarn plugin-helpers dev",
     "dev:watch": "yarn dev --watch",
     "bootstrap": "yarn kbn bootstrap && yarn install && yarn dev",
-    "_compile": "yarn build && unzip -o ./build/devPlugin-x.x.x.zip 'kibana/devPlugin/target/*' -d ./target && rm -fR target/public && mv -f target/kibana/devPlugin/target/* ./target/ && rm -fR target/kibana",
+    "lint": "yarn eslint .",
+    "lint:fix": "yarn eslint --fix .",
     "plugin-helpers": "NODE_OPTIONS=\"${NODE_OPTIONS} --openssl-legacy-provider\" node ../../scripts/plugin_helpers",
-    "kbn": "NODE_OPTIONS=\"${NODE_OPTIONS} --openssl-legacy-provider\" node ../../scripts/kbn"
+    "kbn": "NODE_OPTIONS=\"${NODE_OPTIONS} --openssl-legacy-provider\" node ../../scripts/kbn",
+    "eslint": "node ../../scripts/eslint"
   }
 }

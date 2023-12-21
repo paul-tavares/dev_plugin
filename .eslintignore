@@ -1,0 +1,10 @@
+**/*.js.snap
+__tmp__
+node_modules
+target
+snapshots.js
+
+!/.ci
+!/.eslintrc.js
+!.storybook
+!.buildkite
