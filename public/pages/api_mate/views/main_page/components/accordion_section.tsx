@@ -29,7 +29,7 @@ export const AccordionSection = memo<AccordionSectionProps>(
       }
 
       return divStyles;
-    }, [minHeight, theme.euiTheme.colors.lightestShade]);
+    }, [minHeight, paddingSize, theme.euiTheme.colors.lightestShade, theme.euiTheme.size]);
 
     const buttonTitle = useMemo(() => {
       return <HeaderDisplay>{title}</HeaderDisplay>;

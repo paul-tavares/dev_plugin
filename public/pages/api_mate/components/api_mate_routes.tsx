@@ -5,11 +5,7 @@ import { PageNotFound } from '../../../components/page_not_found';
 import { ROUTER_PATH_API_MATE_MAIN_PAGE } from '../common/constants';
 import { ApiMatePage } from '../views/main_page/api_mate_page';
 
-export interface ApiMateRoutesProps {
-  // TODO: define props
-}
-
-export const ApiMateRoutes = memo<ApiMateRoutesProps>((props) => {
+export const ApiMateRoutes = memo(() => {
   return (
     <Switch>
       <Route path={ROUTER_PATH_API_MATE_MAIN_PAGE} exact component={ApiMatePage} />

@@ -2,11 +2,7 @@ import React, { memo } from 'react';
 import { EuiCard, EuiIcon } from '@elastic/eui';
 import { useApiMateUrlRoute } from '../hooks/use_api_mate_url_route';
 
-export interface ApiMateCardProps {
-  // TODO: define props
-}
-
-export const ApiMateCard = memo<ApiMateCardProps>((props) => {
+export const ApiMateCard = memo(() => {
   const [mainPageHref, onClickHandler] = useApiMateUrlRoute({ page: 'main' });
 
   return (

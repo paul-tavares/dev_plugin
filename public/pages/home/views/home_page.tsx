@@ -9,11 +9,7 @@ const CardContainer = styled.div`
   min-width: 350px;
 `;
 
-export interface HomePageProps {
-  // TODO: define props
-}
-
-export const HomePage = memo<HomePageProps>((props) => {
+export const HomePage = memo(() => {
   return (
     <AppPage
       pageTitle="Developer Tools"
