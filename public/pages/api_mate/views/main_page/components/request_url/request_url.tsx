@@ -11,6 +11,7 @@ import { createState, useApiMateState } from '../../../../components/api_mate_st
 import { useSubmitApiRequest } from '../../../../hooks/use_submit_api_request';
 import { DestinationSystem, HttpMethod } from '../../../../types';
 import { ApiRouteInput } from './api_route_input';
+import { DestinationSystemBadge } from '../../../../components/destination_system_badge';
 
 export const RequestUrl = memo((props) => {
   const [{ loading, httpVerb, url, destination }, setStore] = useApiMateState();
@@ -60,13 +61,21 @@ export const RequestUrl = memo((props) => {
     return [
       {
         value: 'kibana',
-        inputDisplay: 'KBN',
-        dropdownDisplay: 'KBN: Kibana',
+        inputDisplay: <DestinationSystemBadge value="kibana" />,
+        dropdownDisplay: (
+          <>
+            <DestinationSystemBadge value="kibana" /> {'Kibana'}
+          </>
+        ),
       },
       {
         value: 'elasticsearch',
-        inputDisplay: 'ES',
-        dropdownDisplay: 'ES: Elasticsearch',
+        inputDisplay: <DestinationSystemBadge value="elasticsearch" />,
+        dropdownDisplay: (
+          <>
+            <DestinationSystemBadge value="elasticsearch" /> {'Elasticsearch'}
+          </>
+        ),
       },
     ];
   }, []);
