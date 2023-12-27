@@ -16,11 +16,12 @@ import { KeyValueList } from '../../../../types';
 export interface KeyValuePairsProps {
   value: KeyValueList;
   onChange: (newValue: KeyValueList) => void;
+  emptyState?: React.ReactNode;
 }
 
 type KeyValuePair = KeyValueList[number];
 
-export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
+export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange, emptyState }) => {
   const keyValueRowOnChangeHandler: KeyValueRowProps['onChange'] = useCallback(
     ({ new: newPair, old: oldPair }) => {
       const updatedValue: KeyValueList = [];
@@ -48,11 +49,7 @@ export const KeyValuePairs = memo<KeyValuePairsProps>(({ value, onChange }) => {
           titleSize="xxs"
           hasShadow
           title={<div style={{ fontWeight: 500 }}>{'No entries defined'}</div>}
-          body={
-            <EuiText size="s">
-              <p>{'Click Add below to add a new entry'}</p>
-            </EuiText>
-          }
+          body={emptyState ?? <KeyValuePairsEmptyState />}
         />
       );
     }
@@ -151,3 +148,12 @@ export const KeyValueRow = memo<KeyValueRowProps>(({ data, onChange }) => {
   );
 });
 KeyValueRow.displayName = 'KeyValueRow';
+
+export const KeyValuePairsEmptyState = memo(() => {
+  return (
+    <EuiText size="s">
+      <p>{'Click Add for new entry'}</p>
+    </EuiText>
+  );
+});
+KeyValuePairsEmptyState.displayName = 'KeyValuePairsEmptyState';
