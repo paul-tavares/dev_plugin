@@ -1,5 +1,6 @@
 import axios from 'axios';
 import execa from 'execa';
+import { inspect } from 'util';
 import { DevPluginApiRouteHandler } from '../types';
 import { ProjectInfo, ProjectInfoApiResponse } from '../../../common/api/types/info_route';
 
@@ -34,6 +35,7 @@ class DevPluginGithubProject {
           };
         };
         currentHash: string;
+        currentHasLatest: boolean;
       }
     | undefined = undefined;
 
@@ -42,16 +44,25 @@ class DevPluginGithubProject {
   private static readonly cacheStaleDuration: number = 1000 * 60 * 120; // 2h
 
   private static async fetchInfo() {
-    // TODO: build URL from values in `package.json`?
-    const response = await axios.get(
-      'https://api.github.com/repos/paul-tavares/dev_plugin/git/refs/heads/main'
-    );
+    try {
+      // TODO: build URL from values in `package.json`?
+      const response = await axios.get(
+        'https://api.github.com/repos/paul-tavares/dev_plugin/git/refs/heads/main'
+      );
+      const currentHash = (await execa.command('git rev-parse HEAD')).stdout;
+      const currentHasLatest =
+        (await execa.command(`git merge-base --is-ancestor ${currentHash} HEAD`)).exitCode === 0;
 
-    this.fetchedAt = new Date().toISOString();
-    this.info = {
-      repo: response.data,
-      currentHash: (await execa.command('git rev-parse HEAD')).stdout,
-    };
+      this.fetchedAt = new Date().toISOString();
+      this.info = {
+        repo: response.data,
+        currentHash,
+        currentHasLatest,
+      };
+    } catch (err) {
+      console.log(inspect(err, { depth: 8 }));
+      throw err;
+    }
   }
 
   private static isInfoExpired(): boolean {
@@ -70,6 +81,7 @@ class DevPluginGithubProject {
     return {
       currentCommitHash: this.info?.currentHash ?? '',
       latestCommitHash: this.info?.repo.object.sha ?? '',
+      currentHasLatest: this.info?.currentHasLatest ?? false,
     };
   }
 }

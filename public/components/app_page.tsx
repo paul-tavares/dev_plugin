@@ -28,9 +28,9 @@ export const AppPage = memo<AppPage>(
         return false;
       }
 
-      const { currentCommitHash, latestCommitHash } = data.data;
+      const { currentCommitHash, latestCommitHash, currentHasLatest } = data.data;
 
-      return !!(latestCommitHash && currentCommitHash !== latestCommitHash);
+      return !!(latestCommitHash && currentCommitHash !== latestCommitHash && !currentHasLatest);
     }, [data]);
 
     return (
