@@ -1,7 +1,7 @@
 import { PluginInitializerContext, CoreSetup, CoreStart, Plugin, Logger } from '@kbn/core/server';
 
 import { DevPluginPluginSetup, DevPluginPluginStart } from './types';
-import { defineRoutes } from './routes';
+import { registerApiRoutes } from './routes';
 
 export class DevPluginPlugin implements Plugin<DevPluginPluginSetup, DevPluginPluginStart> {
   private readonly logger: Logger;
@@ -15,7 +15,7 @@ export class DevPluginPlugin implements Plugin<DevPluginPluginSetup, DevPluginPl
     const router = core.http.createRouter();
 
     // Register server side APIs
-    defineRoutes(router);
+    registerApiRoutes(router);
 
     return {};
   }
