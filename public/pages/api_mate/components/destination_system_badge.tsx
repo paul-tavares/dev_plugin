@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { EuiBadge } from '@elastic/eui';
+import { EuiBadge, type EuiBadgeProps } from '@elastic/eui';
 import { DestinationSystem } from '../types';
 
 export interface DestinationSystemBadgeProps {
@@ -18,6 +18,23 @@ export const DestinationSystemBadge = memo<DestinationSystemBadgeProps>(({ value
     }
   }, [value]);
 
-  return value ? <EuiBadge>{label}</EuiBadge> : <></>;
+  const icon: EuiBadgeProps['iconType'] = useMemo(() => {
+    switch (value) {
+      case 'elasticsearch':
+        return 'logoElasticsearch';
+      case 'kibana':
+        return 'logoKibana';
+      default:
+        return undefined;
+    }
+  }, [value]);
+
+  return value ? (
+    <EuiBadge color="hollow" iconType={icon}>
+      {label}
+    </EuiBadge>
+  ) : (
+    <></>
+  );
 });
 DestinationSystemBadge.displayName = 'DestinationSystemBadge';
