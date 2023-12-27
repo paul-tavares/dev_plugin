@@ -5,9 +5,21 @@ import { KibanaContextProvider } from '@kbn/kibana-react-plugin/public';
 
 import { CoreStart, ScopedHistory } from '@kbn/core/public';
 
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { AppRoutes } from './app_routes';
 import { PLUGIN_NAME } from '../../common';
 import { AppPluginStartDependencies } from '../types';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchIntervalInBackground: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      keepPreviousData: true,
+    },
+  },
+});
 
 interface DevPluginAppDeps {
   appBasePath: string;
@@ -31,11 +43,13 @@ export const DevPluginApp = ({
         ...coreStart,
       }}
     >
-      <I18nProvider>
-        <Router history={history}>
-          <AppRoutes />
-        </Router>
-      </I18nProvider>
+      <QueryClientProvider client={queryClient}>
+        <I18nProvider>
+          <Router history={history}>
+            <AppRoutes />
+          </Router>
+        </I18nProvider>
+      </QueryClientProvider>
     </KibanaContextProvider>
   );
 };
