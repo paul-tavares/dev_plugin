@@ -11,6 +11,7 @@ import {
   EuiIcon,
   EuiBadge,
   EuiFieldSearch,
+  EuiSpacer,
 } from '@elastic/eui';
 import { EuiFieldSearchProps } from '@elastic/eui/src/components/form/field_search/field_search';
 import { useApiMateHistory } from '../../../../components/api_mate_history';
@@ -64,7 +65,15 @@ export const HistoryItems = memo(() => {
           aria-label="search history items"
         />
       </div>
-      <div>{entryList}</div>
+      <EuiSpacer size="s" />
+      <div
+        className="eui-yScroll"
+        style={{
+          height: '62vh',
+        }}
+      >
+        {entryList}
+      </div>
     </div>
   );
 });
