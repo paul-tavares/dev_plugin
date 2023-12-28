@@ -63,6 +63,7 @@ export const HistoryItems = memo(() => {
           onChange={handleSearchValueOnChange}
           isClearable
           aria-label="search history items"
+          fullWidth
         />
       </div>
       <EuiSpacer size="s" />
