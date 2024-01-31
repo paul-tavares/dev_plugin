@@ -1,6 +1,7 @@
 import { IRouter } from '@kbn/core/server';
-import { API_INFO_ROUTE } from '../../common/api/constants';
+import { API_FILE_LIST_ROUTE, API_INFO_ROUTE } from '../../common/api/constants';
 import { getInfoRouteHandler } from './handlers/info';
+import { getFileDownloadRouteHandler } from './handlers/file_download';
 
 export function registerApiRoutes(router: IRouter) {
   router.get(
@@ -9,5 +10,13 @@ export function registerApiRoutes(router: IRouter) {
       validate: false,
     },
     getInfoRouteHandler()
+  );
+
+  router.get(
+    {
+      path: API_FILE_LIST_ROUTE,
+      validate: false,
+    },
+    getFileDownloadRouteHandler()
   );
 }
