@@ -10,7 +10,7 @@ export const getFileListRouteHandler = (): DevPluginApiRouteHandler<
 > => {
   return async (context, request, response) => {
     const { client: es } = (await context.core).elasticsearch;
-    const esClient = es.asCurrentUser;
+    const esClient = es.asInternalUser;
     const index = request.query.index;
 
     return response.ok({

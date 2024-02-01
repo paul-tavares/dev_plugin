@@ -6,7 +6,7 @@ import {
 } from '../../common/api/constants';
 import { getInfoRouteHandler } from './handlers/info';
 import { getFileDownloadRouteHandler } from './handlers/file_download';
-import { FilesListApiRequest } from '../../common/api/schemas/files';
+import { FilesDownloadApiRequest, FilesListApiRequest } from '../../common/api/schemas/files';
 import { getFileListRouteHandler } from './handlers/file_list';
 
 export function registerApiRoutes(router: IRouter) {
@@ -28,7 +28,7 @@ export function registerApiRoutes(router: IRouter) {
   router.get(
     {
       path: API_FILE_DOWNLOAD_ROUTE,
-      validate: false,
+      validate: FilesDownloadApiRequest,
     },
     getFileDownloadRouteHandler()
   );
