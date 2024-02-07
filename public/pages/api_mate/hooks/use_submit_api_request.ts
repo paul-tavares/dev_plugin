@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { HttpFetchOptions, HttpResponse } from '@kbn/core-http-browser';
+import { HttpFetchOptions, HttpFetchQuery, HttpResponse } from '@kbn/core-http-browser';
 import { HttpFetchError } from '@kbn/core-http-browser-internal/src/http_fetch_error';
 import { useKibanaServices } from '../../../hooks/use_kibana_services';
 import { useApiMateState } from '../components/api_mate_store';
@@ -32,9 +32,14 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
       }, {} as Record<string, string>);
 
       const query = requestParams.reduce((acc, paramEntry) => {
-        acc[paramEntry.name] = paramEntry.value;
+        if (!acc[paramEntry.name]) {
+          acc[paramEntry.name] = [];
+        }
+
+        (acc[paramEntry.name] as string[]).push(paramEntry.value);
+
         return acc;
-      }, {} as Record<string, string>);
+      }, {} as HttpFetchQuery);
 
       const options: HttpFetchOptions & { asResponse: true } = {
         asResponse: true,
@@ -45,7 +50,17 @@ export const useSubmitApiRequest = (): (() => Promise<void>) => {
       };
 
       if (destination === 'elasticsearch') {
-        const searchParams = new URLSearchParams(query);
+        const searchParams = new URLSearchParams();
+
+        for (const [key, value] of Object.entries(query)) {
+          for (const valueElement of value as string[]) {
+            if (searchParams.has(key)) {
+              searchParams.append(key, valueElement);
+            } else {
+              searchParams.set(key, valueElement);
+            }
+          }
+        }
 
         response = await http.post('/api/console/proxy', {
           ...options,
